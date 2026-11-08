@@ -44,8 +44,8 @@ export const Navbar: React.FC = () => {
               src={foxbatLogo}
               alt="Foxbat Intelligence Crest"
               className="navbar-logo-img"
-              width="44"
-              height="44"
+              width="54"
+              height="54"
             />
           </div>
           <div className="navbar-brand-text">
