@@ -2,6 +2,7 @@ import React from 'react';
 import { RouterProvider, useRouter } from './context/RouterContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { CyberBackground } from './components/CyberBackground';
 import { HomePage } from './pages/HomePage';
 import { ServicesPage } from './pages/ServicesPage';
 import { CommunityPage } from './pages/CommunityPage';
@@ -37,6 +38,7 @@ const MainContent: React.FC = () => {
 
   return (
     <div className="app-shell">
+      <CyberBackground />
       <Navbar />
       <main id="main-content" className="app-main" tabIndex={-1}>
         {renderCurrentPage()}

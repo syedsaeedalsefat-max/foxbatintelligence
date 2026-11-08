@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
-import foxbatLogo from '../../image_foxbat_logo.png';
+import {
+  ShieldIcon,
+  UsersIcon,
+  CheckIcon,
+  LockIcon,
+  FileTextIcon,
+  GraduationCapIcon,
+} from '../components/Icons';
 
 export const HomePage: React.FC = () => {
   return (
@@ -14,18 +21,8 @@ export const HomePage: React.FC = () => {
             Safer Websites. Smarter Digital Communities.
           </div>
 
-          <div className="hero-crest-container">
-            <img
-              src={foxbatLogo}
-              alt="Foxbat Intelligence Crest Emblem"
-              className="hero-crest-img"
-              width="140"
-              height="140"
-            />
-          </div>
-
           <h1 id="hero-title" className="hero-title">
-            Foxbat Intelligence
+            Welcome to <span className="hero-title-highlight">Foxbat Intelligence</span>
           </h1>
 
           <p className="hero-subtitle">
@@ -72,7 +69,9 @@ export const HomePage: React.FC = () => {
             {/* Pillar 1: Cybersecurity Services */}
             <div className="pillar-card services-pillar">
               <div className="pillar-header">
-                <span className="pillar-icon" aria-hidden="true">🛡️</span>
+                <span className="pillar-icon" aria-hidden="true">
+                  <ShieldIcon size={24} />
+                </span>
                 <span className="pillar-tag">Technical Domain</span>
                 <h3 className="pillar-title">Cybersecurity Services</h3>
               </div>
@@ -82,15 +81,21 @@ export const HomePage: React.FC = () => {
               </p>
               <ul className="pillar-feature-list">
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Web application security testing & vulnerability scans</span>
                 </li>
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Actionable reporting with step-by-step reproduction</span>
                 </li>
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Strict verified consent & ownership verification</span>
                 </li>
               </ul>
@@ -105,7 +110,9 @@ export const HomePage: React.FC = () => {
             {/* Pillar 2: Community & Resources */}
             <div className="pillar-card community-pillar">
               <div className="pillar-header">
-                <span className="pillar-icon" aria-hidden="true">👥</span>
+                <span className="pillar-icon" aria-hidden="true">
+                  <UsersIcon size={24} />
+                </span>
                 <span className="pillar-tag">Educational Domain</span>
                 <h3 className="pillar-title">Community & Resources</h3>
               </div>
@@ -115,15 +122,21 @@ export const HomePage: React.FC = () => {
               </p>
               <ul className="pillar-feature-list">
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Student-driven cybersecurity workshops and defense labs</span>
                 </li>
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Free cyber safety articles and web hardening checklists</span>
                 </li>
                 <li>
-                  <span className="feature-check" aria-hidden="true">✔</span>
+                  <span className="feature-check" aria-hidden="true">
+                    <CheckIcon size={14} />
+                  </span>
                   <span>Ethical vulnerability disclosure education</span>
                 </li>
               </ul>
@@ -138,15 +151,15 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* How It Works (Ethical Lifecycle) */}
+      {/* Assessment Workflow Preview */}
       <section className="section workflow-section" aria-labelledby="workflow-title">
         <div className="section-container">
           <div className="section-header text-center">
             <h2 id="workflow-title" className="section-title">
-              Ethical Assessment Lifecycle
+              Assessment Lifecycle
             </h2>
             <p className="section-subtitle">
-              Every planned technical interaction is governed by strict legal consent and ethical boundaries.
+              Every technical engagement follows a strict four-stage security lifecycle.
             </p>
           </div>
 
@@ -155,35 +168,31 @@ export const HomePage: React.FC = () => {
               <div className="step-number" aria-hidden="true">01</div>
               <h3 className="step-title">Verified Authorization</h3>
               <p className="step-desc">
-                Explicit target ownership confirmation and signed written consent are verified
-                before any evaluation begins. No unauthorized scans.
+                Cryptographic or DNS-based ownership verification ensures explicit authorization before testing.
               </p>
             </div>
 
             <div className="workflow-step-card">
               <div className="step-number" aria-hidden="true">02</div>
-              <h3 className="step-title">Structured Analysis</h3>
+              <h3 className="step-title">Structured Scanning</h3>
               <p className="step-desc">
-                Methodical testing aligned with OWASP Top 10 standards to detect misconfigurations,
-                injection points, and access control gaps.
+                Automated and manual inspection against OWASP Top 10 web application vulnerabilities.
               </p>
             </div>
 
             <div className="workflow-step-card">
               <div className="step-number" aria-hidden="true">03</div>
-              <h3 className="step-title">Technical Reporting</h3>
+              <h3 className="step-title">Actionable Report</h3>
               <p className="step-desc">
-                Preparation of clear, confidential vulnerability reports containing risk impact
-                ratings, evidence, and exact reproduction steps.
+                Prioritized vulnerability reports with clear CVSS scores, remediation advice, and reproduction steps.
               </p>
             </div>
 
             <div className="workflow-step-card">
               <div className="step-number" aria-hidden="true">04</div>
-              <h3 className="step-title">Remediation Guidance</h3>
+              <h3 className="step-title">Remediation Advisory</h3>
               <p className="step-desc">
-                Direct consultation to assist website owners and development teams in validating
-                and applying secure patch fixes.
+                Collaborative verification guidance to confirm vulnerabilities are safely and permanently mitigated.
               </p>
             </div>
           </div>
@@ -205,7 +214,9 @@ export const HomePage: React.FC = () => {
 
             <div className="values-grid">
               <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">🔒</span>
+                <span className="value-item-icon" aria-hidden="true">
+                  <LockIcon size={20} />
+                </span>
                 <div>
                   <h4 className="value-item-title">Strict Confidentiality</h4>
                   <p className="value-item-text">Findings and communications remain strictly private.</p>
@@ -213,7 +224,9 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">📜</span>
+                <span className="value-item-icon" aria-hidden="true">
+                  <FileTextIcon size={20} />
+                </span>
                 <div>
                   <h4 className="value-item-title">Zero Unsolicited Scans</h4>
                   <p className="value-item-text">We never test external systems without pre-verified consent.</p>
@@ -221,7 +234,9 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">🎓</span>
+                <span className="value-item-icon" aria-hidden="true">
+                  <GraduationCapIcon size={20} />
+                </span>
                 <div>
                   <h4 className="value-item-title">Student Leadership</h4>
                   <p className="value-item-text">Nurturing next-generation cybersecurity talent ethically.</p>
@@ -229,7 +244,9 @@ export const HomePage: React.FC = () => {
               </div>
 
               <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">🛡️</span>
+                <span className="value-item-icon" aria-hidden="true">
+                  <ShieldIcon size={20} />
+                </span>
                 <div>
                   <h4 className="value-item-title">Defensive Focus</h4>
                   <p className="value-item-text">All methodologies are aimed purely at protection and resilience.</p>

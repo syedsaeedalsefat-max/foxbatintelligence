@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
+import { ShieldIcon, CpuIcon, HandshakeIcon, GlobeIcon } from '../components/Icons';
 
 export const CommunityPage: React.FC = () => {
   const initiatives = [
@@ -60,7 +61,9 @@ export const CommunityPage: React.FC = () => {
         <div className="section-container">
           <div className="community-values-grid">
             <div className="val-card">
-              <span className="val-icon" aria-hidden="true">🛡️</span>
+              <span className="val-icon" aria-hidden="true">
+                <ShieldIcon size={24} />
+              </span>
               <h3 className="val-title">Security First</h3>
               <p className="val-text">
                 Every action prioritizes user safety, defensive strength, and strict ethical standards.
@@ -68,7 +71,9 @@ export const CommunityPage: React.FC = () => {
             </div>
 
             <div className="val-card">
-              <span className="val-icon" aria-hidden="true">🧠</span>
+              <span className="val-icon" aria-hidden="true">
+                <CpuIcon size={24} />
+              </span>
               <h3 className="val-title">Learn Continuously</h3>
               <p className="val-text">
                 Cybersecurity evolves rapidly. We encourage constant study, testing, and knowledge sharing.
@@ -76,7 +81,9 @@ export const CommunityPage: React.FC = () => {
             </div>
 
             <div className="val-card">
-              <span className="val-icon" aria-hidden="true">🤝</span>
+              <span className="val-icon" aria-hidden="true">
+                <HandshakeIcon size={24} />
+              </span>
               <h3 className="val-title">Stronger Together</h3>
               <p className="val-text">
                 Security thrives on community collaboration, peer support, and collective defense.
@@ -84,7 +91,9 @@ export const CommunityPage: React.FC = () => {
             </div>
 
             <div className="val-card">
-              <span className="val-icon" aria-hidden="true">🇧🇩</span>
+              <span className="val-icon" aria-hidden="true">
+                <GlobeIcon size={24} />
+              </span>
               <h3 className="val-title">Bangladesh Mission</h3>
               <p className="val-text">
                 Dedicated to improving the digital security baseline of regional web platforms and student groups.

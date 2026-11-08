@@ -15,8 +15,8 @@ export const Footer: React.FC = () => {
                   src={foxbatLogo}
                   alt="Foxbat Intelligence Emblem"
                   className="footer-logo-img"
-                  width="40"
-                  height="40"
+                  width="48"
+                  height="48"
                 />
               </div>
               <span className="footer-brand-title">Foxbat Intelligence</span>
