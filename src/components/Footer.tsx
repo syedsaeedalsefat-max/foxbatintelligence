@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
-import foxbatLogo from '../../image_foxbat_logo.png';
 
 export const Footer: React.FC = () => {
   return (
@@ -10,15 +9,6 @@ export const Footer: React.FC = () => {
           {/* Brand & Mission Column */}
           <div className="footer-col brand-col">
             <div className="footer-brand">
-              <div className="footer-logo-wrapper">
-                <img
-                  src={foxbatLogo}
-                  alt="Foxbat Intelligence Emblem"
-                  className="footer-logo-img"
-                  width="48"
-                  height="48"
-                />
-              </div>
               <span className="footer-brand-title">Foxbat Intelligence</span>
             </div>
             <p className="footer-tagline">
