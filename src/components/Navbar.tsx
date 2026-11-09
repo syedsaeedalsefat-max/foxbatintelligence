@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useRouter, type RoutePath } from '../context/RouterContext';
+import { useAuth } from '../context/AuthContext';
+import { LockIcon, LogOutIcon, ShieldCheckIcon } from './Icons';
 import foxbatLogo from '../../image_foxbat_logo.png';
 
 export const Navbar: React.FC = () => {
   const { path } = useRouter();
+  const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Close mobile menu on ESC
@@ -75,10 +78,39 @@ export const Navbar: React.FC = () => {
 
         {/* Right Action / Portal State */}
         <div className="navbar-actions">
-          <span className="portal-badge" title="Authenticated Member Portal is planned for Phase 3">
-            <span className="portal-dot"></span>
-            Portal (Planned)
-          </span>
+          {isAuthenticated && user ? (
+            <div className="navbar-auth-cluster">
+              <Link
+                href="/portal"
+                className="nav-portal-badge active"
+                title={`Logged in as ${user.name} (${user.role.toUpperCase()})`}
+              >
+                <span className="portal-dot pulse-green"></span>
+                <span className="nav-portal-callsign">{user.callsign}</span>
+                <span className={`nav-portal-role role-${user.role}`}>
+                  {user.role.toUpperCase()}
+                </span>
+              </Link>
+              <button
+                type="button"
+                className="nav-logout-btn"
+                onClick={() => logout()}
+                title="Logout from Staff Portal"
+                aria-label="Logout"
+              >
+                <LogOutIcon size={16} />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="nav-staff-login-btn"
+              title="Restricted Staff Portal for Admin, Moderator, Crew, and Owner"
+            >
+              <LockIcon size={14} className="nav-lock-icon" />
+              <span>Staff Login</span>
+            </Link>
+          )}
 
           {/* Mobile Menu Toggle Button */}
           <button
@@ -122,13 +154,49 @@ export const Navbar: React.FC = () => {
                     </li>
                   );
                 })}
+
+                {/* Mobile Portal Link */}
+                <li className="mobile-portal-item">
+                  {isAuthenticated && user ? (
+                    <Link
+                      href="/portal"
+                      className="navbar-mobile-link portal-link-mobile"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <ShieldCheckIcon size={18} />
+                      <span>Staff Portal ({user.callsign})</span>
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/login"
+                      className="navbar-mobile-link portal-link-mobile"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <LockIcon size={18} />
+                      <span>Staff Portal Login</span>
+                    </Link>
+                  )}
+                </li>
               </ul>
             </nav>
 
             <div className="navbar-mobile-footer">
-              <span className="mobile-portal-notice">
-                Member Portal & Request Management will be available in future releases.
-              </span>
+              {isAuthenticated && user ? (
+                <button
+                  type="button"
+                  className="btn-secondary w-full"
+                  onClick={() => {
+                    logout();
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <LogOutIcon size={16} /> Logout ({user.callsign})
+                </button>
+              ) : (
+                <span className="mobile-portal-notice">
+                  Restricted staff access for Admins, Moderators, Crews, and System Command.
+                </span>
+              )}
             </div>
           </div>
         </div>

@@ -7,7 +7,9 @@ export type RoutePath =
   | '/resources'
   | '/contact'
   | '/privacy'
-  | '/terms';
+  | '/terms'
+  | '/login'
+  | '/portal';
 
 interface RouterContextType {
   path: RoutePath;
@@ -29,6 +31,8 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       '/contact',
       '/privacy',
       '/terms',
+      '/login',
+      '/portal',
     ];
     // Strip trailing slash if present (except root)
     const normalized = pathname.length > 1 && pathname.endsWith('/')
