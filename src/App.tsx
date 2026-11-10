@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouterProvider, useRouter } from './context/RouterContext';
 import { AuthProvider } from './context/AuthContext';
+import { ContentProvider } from './context/ContentContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CyberBackground } from './components/CyberBackground';
@@ -8,6 +9,7 @@ import { HomePage } from './pages/HomePage';
 import { ServicesPage } from './pages/ServicesPage';
 import { CommunityPage } from './pages/CommunityPage';
 import { ResourcesPage } from './pages/ResourcesPage';
+import { ComicsPage } from './pages/ComicsPage';
 import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
@@ -28,6 +30,8 @@ const MainContent: React.FC = () => {
         return <CommunityPage />;
       case '/resources':
         return <ResourcesPage />;
+      case '/comics':
+        return <ComicsPage />;
       case '/contact':
         return <ContactPage />;
       case '/privacy':
@@ -58,9 +62,11 @@ const MainContent: React.FC = () => {
 export function App() {
   return (
     <AuthProvider>
-      <RouterProvider>
-        <MainContent />
-      </RouterProvider>
+      <ContentProvider>
+        <RouterProvider>
+          <MainContent />
+        </RouterProvider>
+      </ContentProvider>
     </AuthProvider>
   );
 }

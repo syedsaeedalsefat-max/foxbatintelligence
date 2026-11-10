@@ -3719,3 +3719,1416 @@
   }
 }
 
+/* ==========================================================================
+   Sci-Fi Comics Chronicles & Turn-Page Book Reader Styling
+   ========================================================================== */
+
+/* Announcement Strip */
+.comics-announcement-strip {
+  background: rgba(0, 229, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+  padding: 10px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.announcement-content-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.announcement-texts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--color-text-slate);
+}
+
+.announcement-texts strong {
+  color: var(--color-text-white);
+}
+
+/* Hero Section */
+.comics-page-wrapper {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 80px;
+}
+
+.comics-hero-section {
+  padding: 56px 0 28px;
+  text-align: center;
+}
+
+.comics-main-title {
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--color-text-white);
+  margin: 16px 0 12px;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 40%, var(--color-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.comics-lead-text {
+  max-width: 740px;
+  margin: 0 auto 28px;
+  font-size: 1.05rem;
+  color: var(--color-text-slate);
+  line-height: 1.6;
+}
+
+.comics-metrics-row {
+  display: inline-flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 16, 36, 0.85);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-cyan);
+}
+
+/* Filter Section */
+.comics-filter-section {
+  margin-bottom: 36px;
+}
+
+.comics-filter-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.comic-filter-btn {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 16, 36, 0.8);
+  color: var(--color-text-slate);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.comic-filter-btn:hover {
+  color: var(--color-text-white);
+  border-color: rgba(0, 229, 255, 0.4);
+}
+
+.comic-filter-btn.active {
+  background: var(--color-cyan);
+  color: var(--color-obsidian);
+  font-weight: 700;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.3);
+}
+
+/* Comic Slots Grid */
+.comic-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 32px;
+}
+
+.comic-story-slot {
+  background: rgba(10, 16, 36, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 4px solid var(--color-cyan);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.comic-story-slot:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 229, 255, 0.4);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7),
+              0 0 24px rgba(0, 229, 255, 0.12);
+}
+
+/* Cover Preview in Card */
+.comic-cover-preview {
+  height: 230px;
+  background: #040614;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comic-cover-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  filter: blur(55px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.comic-cover-decor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.slot-badge-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  color: var(--color-text-white);
+  background: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.slot-pages-count {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.cover-art-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition-fast);
+}
+
+.comic-cover-preview:hover .cover-art-center {
+  transform: scale(1.06);
+}
+
+.hologram-bat-emblem {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, rgba(4, 6, 20, 0.8) 70%);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cyan);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+}
+
+.cover-preview-click-hint {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-white);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.cover-preview-meta {
+  position: relative;
+  z-index: 1;
+}
+
+.cover-issue-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--color-cyan);
+  font-weight: 700;
+  display: block;
+}
+
+.cover-preview-title {
+  margin: 2px 0 0;
+  font-size: 1.15rem;
+  color: var(--color-text-white);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Comic Slot Body */
+.comic-slot-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.slot-genre-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.genre-tag {
+  color: var(--color-cyan);
+  font-weight: 600;
+}
+
+.comic-slot-synopsis {
+  font-size: 0.88rem;
+  color: var(--color-text-slate);
+  line-height: 1.55;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+.comic-slot-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.slot-release-date {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.read-book-btn {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Interactive Turn-Page Book Reader (Realistic 3D Cyber Book)
+   ========================================================================== */
+
+.book-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 3, 10, 0.94);
+  backdrop-filter: blur(16px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.book-reader-container {
+  width: 100%;
+  max-width: 1240px;
+  height: 94vh;
+  display: flex;
+  flex-direction: column;
+  background: #030511;
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 229, 255, 0.15);
+  overflow: hidden;
+}
+
+/* Top Control Bar */
+.book-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(8, 12, 28, 0.98);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.book-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.book-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  color: var(--color-text-white);
+  font-family: var(--font-mono);
+}
+
+.book-heading-text {
+  font-size: 1.15rem;
+  color: var(--color-text-white);
+  margin: 0;
+  font-weight: 700;
+}
+
+.book-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.book-control-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-text-slate);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.book-control-btn:hover {
+  background: rgba(0, 229, 255, 0.15);
+  color: #ffffff;
+}
+
+.book-control-btn.active {
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.page-counter-pill {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-cyan);
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+.book-close-btn {
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: var(--color-alert-red);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.book-close-btn:hover {
+  background: var(--color-alert-red);
+  color: #ffffff;
+}
+
+/* 3D Book Stage */
+.book-stage {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  perspective: 2000px;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #091024 0%, #030511 100%);
+}
+
+.book-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 72px;
+  background: rgba(10, 16, 36, 0.85);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  color: var(--color-cyan);
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.book-nav-arrow:hover:not(:disabled) {
+  background: var(--color-cyan);
+  color: var(--color-obsidian);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+.book-nav-arrow:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.book-nav-prev { left: 24px; }
+.book-nav-next { right: 24px; }
+
+/* The Dual-Page Open Book Wrapper */
+.book-wrapper {
+  display: flex;
+  width: 92%;
+  max-width: 1080px;
+  height: 96%;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.book-leaf {
+  width: 50%;
+  height: 100%;
+  background: #060b1c;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-leaf-left {
+  border-right: 2px solid rgba(0, 0, 0, 0.7);
+  box-shadow: inset -15px 0 25px rgba(0, 0, 0, 0.6);
+}
+
+.book-leaf-right {
+  box-shadow: inset 15px 0 25px rgba(0, 0, 0, 0.6);
+}
+
+/* Spine Shadow Overlay */
+.leaf-spine-shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.leaf-spine-shadow-right {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Front Cover Layout */
+.book-front-cover {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #070e24 0%, #030612 100%);
+  border: 2px solid var(--color-cyan);
+  border-radius: 4px;
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-grid-decor {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.cover-badge-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.cover-pill {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border: 1px solid;
+  border-radius: 4px;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+}
+
+.cover-genre {
+  font-size: 0.8rem;
+  color: var(--color-cyan);
+  font-weight: 600;
+}
+
+.cover-central-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  margin: 20px 0;
+}
+
+.art-hologram-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.25) 0%, rgba(4, 6, 20, 0.9) 70%);
+  border: 2px solid var(--color-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cyan);
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.4);
+}
+
+.cover-title-group {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.cover-issue-num {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-cyan);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cover-main-title {
+  font-size: 1.85rem;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 0 0 8px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.cover-author-line {
+  font-size: 0.88rem;
+  color: var(--color-text-slate);
+  margin: 0;
+}
+
+.cover-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cover-open-btn {
+  font-size: 0.92rem;
+  padding: 10px 22px;
+}
+
+.cover-date {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* Inside Cover Decorative Lining */
+.inside-cover-lining {
+  padding: 40px 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #040816;
+  position: relative;
+}
+
+.lining-tag {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--color-cyan);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.lining-series-title {
+  font-size: 1.45rem;
+  color: #ffffff;
+  margin: 0 0 16px;
+  font-weight: 800;
+}
+
+.lining-disclaimer {
+  font-size: 0.84rem;
+  color: var(--color-text-slate);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.lining-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: var(--color-cyan);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Story Page Inside Book */
+.book-page-content {
+  padding: 26px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.story-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 14px;
+}
+
+.page-chapter-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  letter-spacing: 0.03em;
+}
+
+.page-num-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.narrative-banner {
+  background: rgba(0, 229, 255, 0.07);
+  border-left: 3px solid var(--color-cyan);
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 0.86rem;
+  color: #ffffff;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.narrative-banner p { margin: 0; }
+
+.panels-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-grow: 1;
+}
+
+.comic-panel-box {
+  background: rgba(10, 16, 36, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 100px;
+}
+
+/* Panel Theme Variations */
+.panel-theme-matrix {
+  background: linear-gradient(135deg, rgba(4, 16, 12, 0.95), rgba(4, 28, 20, 0.95));
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.panel-theme-cyan {
+  background: linear-gradient(135deg, rgba(4, 14, 32, 0.95), rgba(6, 24, 48, 0.95));
+  border-color: rgba(0, 229, 255, 0.45);
+}
+
+.panel-theme-alert {
+  background: linear-gradient(135deg, rgba(28, 6, 10, 0.95), rgba(40, 8, 14, 0.95));
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.panel-theme-dark {
+  background: linear-gradient(135deg, rgba(6, 8, 20, 0.95), rgba(12, 16, 36, 0.95));
+  border-color: rgba(192, 132, 252, 0.4);
+}
+
+.panel-caption {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.speech-bubble {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.speech-speaker {
+  color: var(--color-cyan);
+  margin-right: 6px;
+  display: inline;
+}
+
+.speech-text {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.page-turn-hint {
+  text-align: right;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  margin-top: 12px;
+}
+
+/* Credits Page */
+.credits-page {
+  justify-content: space-between;
+}
+
+.comic-issue-tag {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.credits-title {
+  font-size: 1.35rem;
+  color: #ffffff;
+  margin: 6px 0 2px;
+}
+
+.credits-author {
+  font-size: 0.85rem;
+  color: var(--color-text-slate);
+}
+
+.synopsis-box h5, .chapters-list h5 {
+  font-size: 0.85rem;
+  color: var(--color-cyan);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.synopsis-box p {
+  font-size: 0.86rem;
+  color: var(--color-text-slate);
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.chapters-list ol {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-slate);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.page-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+  font-family: var(--font-mono);
+}
+
+/* Back Cover Reader Feedback Log */
+.back-cover-page {
+  overflow-y: auto;
+}
+
+.reader-feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  background: rgba(4, 8, 20, 0.7);
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.feedback-success-card {
+  text-align: center;
+  padding: 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  margin-bottom: 18px;
+}
+
+.feedback-success-card h5 {
+  margin: 8px 0 4px;
+  color: #ffffff;
+}
+
+.feedback-success-card p {
+  font-size: 0.82rem;
+  color: var(--color-text-slate);
+  margin: 0 0 12px;
+}
+
+.approved-reader-notes h6 {
+  font-size: 0.82rem;
+  color: var(--color-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 10px;
+}
+
+.notes-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reader-note-bubble {
+  background: rgba(10, 16, 36, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.84rem;
+}
+
+.note-author-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.note-author-row strong { color: #ffffff; }
+.note-time { font-size: 0.72rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.note-body { color: var(--color-text-slate); margin: 0; line-height: 1.45; }
+
+.staff-reply-box {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(0, 229, 255, 0.08);
+  border-left: 2px solid var(--color-cyan);
+  border-radius: 4px;
+}
+
+.reply-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  margin-bottom: 2px;
+}
+
+.staff-reply-box p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-white);
+}
+
+.no-comments-note {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Bottom Page Navigation Thumbnails Bar */
+.book-bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(8, 12, 28, 0.98);
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+  flex-shrink: 0;
+  gap: 14px;
+}
+
+.page-thumbnails-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  max-width: 500px;
+  padding: 4px;
+}
+
+.page-thumb-indicator {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-slate);
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.page-thumb-indicator:hover {
+  background: rgba(0, 229, 255, 0.15);
+  color: #ffffff;
+}
+
+.page-thumb-indicator.active {
+  background: var(--color-cyan);
+  color: var(--color-obsidian);
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.35);
+}
+
+/* ==========================================================================
+   Admin Operations CMS Styling (Comics, Orders, Comments, Announcement)
+   ========================================================================== */
+
+.portal-flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin: 0 0 4px;
+  font-weight: 800;
+}
+
+.table-comic-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comic-dot-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.cell-subtext {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+}
+
+.status-toggle-btn {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all var(--transition-fast);
+}
+
+.status-toggle-btn.published {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border-color: #10b981;
+}
+
+.status-toggle-btn.draft {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-muted);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Page Manager Subpanel */
+.comic-page-manager-panel {
+  margin-top: 24px;
+  background: rgba(4, 8, 22, 0.95);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.panel-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-header-row h4 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.pages-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.page-summary-card {
+  background: rgba(10, 16, 36, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 0.8rem;
+}
+
+.page-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  color: var(--color-cyan);
+}
+
+.btn-danger-icon {
+  background: transparent;
+  border: none;
+  color: var(--color-alert-red);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-weight: 700;
+}
+
+.page-summary-chapter {
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.page-summary-narrative {
+  color: var(--color-text-muted);
+  margin: 0 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-summary-panels {
+  font-size: 0.72rem;
+  color: var(--color-cyan);
+  font-family: var(--font-mono);
+}
+
+.add-page-form {
+  background: rgba(10, 16, 36, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.add-page-form h5 {
+  margin: 0 0 12px;
+  color: var(--color-cyan);
+  font-size: 0.92rem;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.form-group-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-input-sm {
+  padding: 7px 10px;
+  font-size: 0.84rem;
+}
+
+.form-textarea-sm {
+  padding: 7px 10px;
+  font-size: 0.84rem;
+}
+
+/* Modal Card for Admin */
+.admin-modal-card {
+  width: 100%;
+  max-width: 680px;
+  background: rgba(10, 16, 36, 0.98);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modal-close-btn:hover { color: #ffffff; }
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Orders Styling */
+.order-filter-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pill-btn {
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-slate);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.pill-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
+
+.pill-btn.active {
+  background: var(--color-cyan);
+  color: var(--color-obsidian);
+  border-color: var(--color-cyan);
+}
+
+.order-status-select {
+  background: rgba(4, 8, 20, 0.9);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: var(--color-text-white);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.assessor-badge {
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  color: var(--color-cyan);
+  background: rgba(0, 229, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+}
+
+.order-details-editor-panel {
+  margin-top: 18px;
+  background: rgba(4, 8, 20, 0.9);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.order-details-editor-panel h5 {
+  margin: 0 0 10px;
+  color: var(--color-cyan);
+  font-size: 0.88rem;
+}
+
+.table-comment-text {
+  font-size: 0.84rem;
+  color: var(--color-text-slate);
+  max-width: 320px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.table-staff-reply {
+  font-size: 0.8rem;
+  color: #34d399;
+  font-style: italic;
+  display: block;
+}
+
+/* Statistics Giant Num */
+.stat-giant-num {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  line-height: 1;
+  margin: 6px 0;
+}
+
+.stat-subtext {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin: 0 0 16px;
+}
+
+/* Announcement Form */
+.announcement-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reset-danger-zone {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.reset-danger-zone h4 {
+  margin: 0 0 4px;
+  color: var(--color-alert-red);
+  font-size: 0.95rem;
+}
+
+.reset-danger-zone .subtext {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+/* Responsive adjustments for book reader */
+@media (max-width: 900px) {
+  .book-wrapper {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
+  .book-leaf-left {
+    display: none; /* In mobile view, render single page on right leaf */
+  }
+
+  .book-leaf-right {
+    width: 100%;
+  }
+
+  .book-nav-arrow {
+    width: 38px;
+    height: 56px;
+    font-size: 1.6rem;
+  }
+
+  .book-nav-prev { left: 8px; }
+  .book-nav-next { right: 8px; }
+
+  .form-grid-2, .form-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .comic-slots-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

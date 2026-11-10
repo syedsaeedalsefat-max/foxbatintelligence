@@ -5,6 +5,7 @@ export type RoutePath =
   | '/services'
   | '/community'
   | '/resources'
+  | '/comics'
   | '/contact'
   | '/privacy'
   | '/terms'
@@ -28,6 +29,7 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       '/services',
       '/community',
       '/resources',
+      '/comics',
       '/contact',
       '/privacy',
       '/terms',

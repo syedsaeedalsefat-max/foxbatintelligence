@@ -1,0 +1,195 @@
+import React, { useState } from 'react';
+import { useContent, type ComicStory } from '../context/ContentContext';
+import { ComicBookReader } from '../components/ComicBookReader';
+import {
+  TerminalIcon,
+  ShieldIcon,
+  UsersIcon,
+  CheckCircleIcon,
+  FileTextIcon,
+} from '../components/Icons';
+
+export const ComicsPage: React.FC = () => {
+  const { comics, announcement } = useContent();
+  const [selectedComic, setSelectedComic] = useState<ComicStory | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+
+  const publishedComics = comics.filter((c) => c.isPublished);
+
+  const filteredComics =
+    activeFilter === 'all'
+      ? publishedComics
+      : publishedComics.filter((c) =>
+          c.genre.toLowerCase().includes(activeFilter.toLowerCase())
+        );
+
+  const genres = [
+    { label: 'All Series', value: 'all' },
+    { label: 'Cyberpunk', value: 'cyberpunk' },
+    { label: 'Action & Procedural', value: 'action' },
+    { label: 'Hard Sci-Fi', value: 'hard sci-fi' },
+  ];
+
+  return (
+    <div className="page-wrapper comics-page-wrapper">
+      {/* Featured Banner */}
+      {announcement.isActive && (
+        <section className="comics-announcement-strip">
+          <div className="section-container">
+            <div className="announcement-content-wrap">
+              <span className="badge-cyan">{announcement.badgeText}</span>
+              <div className="announcement-texts">
+                <strong>{announcement.headline}</strong>
+                <span>{announcement.message}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Hero Section */}
+      <section className="comics-hero-section">
+        <div className="section-container">
+          <div className="badge-wrapper">
+            <span className="badge-cyan">
+              <TerminalIcon size={14} className="inline-icon" /> Foxbat Graphic Storytelling
+            </span>
+          </div>
+          <h1 className="comics-main-title">Sci-Fi Comic Chronicles</h1>
+          <p className="comics-lead-text">
+            Immersive cybernetic graphic novels illustrating digital forensics, ethical hacking, and cyber defense in futuristic worlds. Click any story to open our complete interactive 3D turn-page book reader.
+          </p>
+
+          {/* Quick Metrics Bar */}
+          <div className="comics-metrics-row">
+            <div className="metric-pill">
+              <ShieldIcon size={16} />
+              <span>{publishedComics.length} Active Chronicles</span>
+            </div>
+            <div className="metric-pill">
+              <FileTextIcon size={16} />
+              <span>Full Interactive Book Reader</span>
+            </div>
+            <div className="metric-pill">
+              <UsersIcon size={16} />
+              <span>Open Community Reader Logs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Filter Tabs */}
+      <section className="comics-filter-section">
+        <div className="section-container">
+          <div className="comics-filter-tabs">
+            {genres.map((g) => (
+              <button
+                key={g.value}
+                type="button"
+                className={`comic-filter-btn ${activeFilter === g.value ? 'active' : ''}`}
+                onClick={() => setActiveFilter(g.value)}
+              >
+                {g.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comic Story Slots Grid */}
+      <section className="comics-grid-section">
+        <div className="section-container">
+          <div className="comic-slots-grid">
+            {filteredComics.map((comic) => (
+              <article
+                key={comic.id}
+                className="comic-story-slot"
+                style={{
+                  borderTopColor: comic.coverAccent,
+                }}
+              >
+                {/* Comic Card Header & Cover Mockup */}
+                <div
+                  className="comic-cover-preview"
+                  onClick={() => setSelectedComic(comic)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setSelectedComic(comic);
+                    }
+                  }}
+                  aria-label={`Open ${comic.title} as book`}
+                >
+                  <div className="comic-cover-glow" style={{ background: comic.coverAccent }} />
+                  <div className="comic-cover-decor">
+                    <span className="slot-badge-pill" style={{ borderColor: comic.coverAccent }}>
+                      {comic.badge}
+                    </span>
+                    <span className="slot-pages-count">{comic.pages.length} Pages</span>
+                  </div>
+
+                  <div className="cover-art-center">
+                    <div className="hologram-bat-emblem">
+                      <TerminalIcon size={48} />
+                    </div>
+                    <span className="cover-preview-click-hint">Click to Open Book 📖</span>
+                  </div>
+
+                  <div className="cover-preview-meta">
+                    <span className="cover-issue-tag">{comic.issueNumber}</span>
+                    <h3 className="cover-preview-title">{comic.title}</h3>
+                  </div>
+                </div>
+
+                {/* Comic Card Content */}
+                <div className="comic-slot-body">
+                  <div className="slot-genre-row">
+                    <span className="genre-tag">{comic.genre}</span>
+                    <span className="author-tag">By {comic.author}</span>
+                  </div>
+
+                  <p className="comic-slot-synopsis">{comic.synopsis}</p>
+
+                  <div className="comic-slot-footer">
+                    <span className="slot-release-date">Released: {comic.releaseDate}</span>
+                    <button
+                      type="button"
+                      className="btn-primary btn-sm read-book-btn"
+                      onClick={() => setSelectedComic(comic)}
+                    >
+                      Read Comic Book &rarr;
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {filteredComics.length === 0 && (
+            <div className="no-comics-found">
+              <CheckCircleIcon size={36} className="text-cyan" />
+              <h3>No stories match this filter</h3>
+              <p>Try selecting another genre or view all series.</p>
+              <button
+                type="button"
+                className="btn-secondary btn-sm"
+                onClick={() => setActiveFilter('all')}
+              >
+                Reset Filter
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Interactive Turn-Page Book Reader Modal */}
+      {selectedComic && (
+        <ComicBookReader
+          comic={selectedComic}
+          onClose={() => setSelectedComic(null)}
+        />
+      )}
+    </div>
+  );
+};
