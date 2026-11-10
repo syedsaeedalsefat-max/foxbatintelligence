@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
+import { useContent } from '../context/ContentContext';
 
 export const Footer: React.FC = () => {
+  const { siteSettings } = useContent();
+
   return (
     <footer className="site-footer" role="contentinfo">
       <div className="footer-container">
@@ -9,14 +12,17 @@ export const Footer: React.FC = () => {
           {/* Brand & Mission Column */}
           <div className="footer-col brand-col">
             <div className="footer-brand">
-              <span className="footer-brand-title">Foxbat Intelligence</span>
+              <span className="footer-brand-title">{siteSettings.brandTitle}</span>
             </div>
             <p className="footer-tagline">
-              Safer Websites. Smarter Digital Communities.
+              {siteSettings.footerTagline}
             </p>
             <div className="footer-badges">
-              <span className="footer-pill-badge">Student-Led Initiative</span>
-              <span className="footer-pill-badge">Mission Secure Web Bangladesh</span>
+              {siteSettings.footerBadges.map((badge, idx) => (
+                <span key={idx} className="footer-pill-badge">
+                  {badge}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -73,7 +79,7 @@ export const Footer: React.FC = () => {
 
         <div className="footer-bottom-bar">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} Foxbat Intelligence. All rights reserved.
+            © {new Date().getFullYear()} {siteSettings.brandTitle}. All rights reserved.
           </p>
           <p className="footer-disclaimer">
             Independent cybersecurity and educational awareness initiative.

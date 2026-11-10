@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from '../context/RouterContext';
+import { useContent } from '../context/ContentContext';
 import {
   GlobeIcon,
   ShieldCheckIcon,
@@ -10,75 +11,31 @@ import {
 } from '../components/Icons';
 
 export const ServicesPage: React.FC = () => {
+  const { servicesList } = useContent();
   const [activeFilter, setActiveFilter] = useState<'all' | 'technical' | 'advisory'>('all');
 
-  const plannedServices = [
-    {
-      id: 'web-app-testing',
-      category: 'technical',
-      title: 'Web Application Security Testing',
-      status: 'Planning Draft',
-      tag: 'Technical Assessment',
-      icon: <GlobeIcon size={24} />,
-      description:
-        'Methodical testing of client-side and server-side web applications to uncover common security flaws (OWASP Top 10 and beyond), including authentication bypasses, broken object-level authorization, and injection vulnerabilities.',
-      deliverables: [
-        'Input validation and sanitization evaluation',
-        'Authentication and session lifecycle checks',
-        'Business logic flow testing',
-      ],
-    },
-    {
-      id: 'vulnerability-assessment',
-      category: 'technical',
-      title: 'Vulnerability Assessment',
-      status: 'Planning Draft',
-      tag: 'Risk Analysis',
-      icon: <ShieldCheckIcon size={24} />,
-      description:
-        'Comprehensive review of web infrastructure, exposed services, SSL/TLS configurations, and third-party dependencies to map attack surfaces and classify potential weaknesses before malicious actors exploit them.',
-      deliverables: [
-        'External attack surface discovery',
-        'Security header and transport layer review',
-        'Known dependency vulnerability auditing',
-      ],
-    },
-    {
-      id: 'technical-reporting',
-      category: 'advisory',
-      title: 'Technical Reporting',
-      status: 'Planning Draft',
-      tag: 'Actionable Deliverables',
-      icon: <FileTextIcon size={24} />,
-      description:
-        'Structured, transparent documentation that bridges the gap between technical teams and leadership. Reports include executive summaries, CVSS severity ratings, detailed reproduction steps, and tailored remediation guidance.',
-      deliverables: [
-        'Executive summaries with risk prioritizations',
-        'Proof-of-concept evidence for verified findings',
-        'Specific, developer-friendly remediation instructions',
-      ],
-    },
-    {
-      id: 'consultation-guidance',
-      category: 'advisory',
-      title: 'Consultation & Guidance',
-      status: 'Planning Draft',
-      tag: 'Remediation Advisory',
-      icon: <HandshakeIcon size={24} />,
-      description:
-        'Collaborative post-assessment advisory to help development teams correctly apply patches, verify security fixes, and integrate defensive security best practices into their ongoing development lifecycles.',
-      deliverables: [
-        'Patch verification and re-test advisory',
-        'Secure coding fundamentals for developers',
-        'Security policy and incident response basics',
-      ],
-    },
-  ];
+  const renderServiceIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'globe':
+        return <GlobeIcon size={24} />;
+      case 'shield':
+        return <ShieldCheckIcon size={24} />;
+      case 'file':
+        return <FileTextIcon size={24} />;
+      case 'handshake':
+        return <HandshakeIcon size={24} />;
+      default:
+        return <GlobeIcon size={24} />;
+    }
+  };
 
   const filteredServices =
     activeFilter === 'all'
-      ? plannedServices
-      : plannedServices.filter((s) => s.category === activeFilter);
+      ? servicesList
+      : servicesList.filter((s) => s.category === activeFilter);
+
+  const technicalCount = servicesList.filter((s) => s.category === 'technical').length;
+  const advisoryCount = servicesList.filter((s) => s.category === 'advisory').length;
 
   return (
     <div className="page-wrapper services-page">
@@ -141,7 +98,7 @@ export const ServicesPage: React.FC = () => {
                 className={`service-filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
                 onClick={() => setActiveFilter('all')}
               >
-                All Services ({plannedServices.length})
+                All Services ({servicesList.length})
               </button>
               <button
                 type="button"
@@ -150,7 +107,7 @@ export const ServicesPage: React.FC = () => {
                 className={`service-filter-btn ${activeFilter === 'technical' ? 'active' : ''}`}
                 onClick={() => setActiveFilter('technical')}
               >
-                Technical Assessments (2)
+                Technical Assessments ({technicalCount})
               </button>
               <button
                 type="button"
@@ -159,7 +116,7 @@ export const ServicesPage: React.FC = () => {
                 className={`service-filter-btn ${activeFilter === 'advisory' ? 'active' : ''}`}
                 onClick={() => setActiveFilter('advisory')}
               >
-                Advisory & Reporting (2)
+                Advisory & Reporting ({advisoryCount})
               </button>
             </div>
           </div>
@@ -169,7 +126,9 @@ export const ServicesPage: React.FC = () => {
             {filteredServices.map((service) => (
               <div key={service.id} className="service-detail-card">
                 <div className="card-top-bar">
-                  <span className="service-icon" aria-hidden="true">{service.icon}</span>
+                  <span className="service-icon" aria-hidden="true">
+                    {renderServiceIcon(service.icon || 'globe')}
+                  </span>
                   <span className="status-pill draft-pill">{service.status}</span>
                 </div>
                 <span className="service-category">{service.tag}</span>

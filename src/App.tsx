@@ -41,6 +41,7 @@ const MainContent: React.FC = () => {
       case '/login':
         return <LoginPage />;
       case '/portal':
+      case '/admin':
         return <PortalPage />;
       default:
         return <HomePage />;

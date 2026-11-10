@@ -5,6 +5,8 @@ import {
   useContent,
   type ComicStory,
   type OrderStatus,
+  type ServiceItem,
+  type MediaAsset,
 } from '../context/ContentContext';
 import { ComicBookReader } from '../components/ComicBookReader';
 import {
@@ -16,6 +18,11 @@ import {
   CheckCircleIcon,
   LockIcon,
   ActivityIcon,
+  GlobeIcon,
+  UploadIcon,
+  SettingsIcon,
+  TrashIcon,
+  PlusIcon,
 } from '../components/Icons';
 
 export const PortalPage: React.FC = () => {
@@ -26,6 +33,12 @@ export const PortalPage: React.FC = () => {
     orders,
     comments,
     announcement,
+    homeContent,
+    servicesList,
+    resourcesArticles,
+    checklistItems,
+    siteSettings,
+    mediaAssets,
     addComic,
     updateComic,
     deleteComic,
@@ -38,9 +51,82 @@ export const PortalPage: React.FC = () => {
     deleteComment,
     updateAnnouncement,
     resetAllContent,
+    updateHomeContent,
+    resetHomeContent,
+    addService,
+    updateService,
+    deleteService,
+    resetServices,
+    addArticle,
+    deleteArticle,
+    resetArticles,
+    addChecklistItem,
+    deleteChecklistItem,
+    resetChecklist,
+    updateSiteSettings,
+    addMediaAsset,
+    deleteMediaAsset,
+    exportAllContentJson,
+    importAllContentJson,
+    resetAllToFactoryDefaults,
   } = useContent();
 
   const [activeTab, setActiveTab] = useState<string>('overview');
+
+  // RBAC Helper flags
+  const isOwner = user?.role === 'owner';
+  const isAdmin = user?.role === 'admin' || isOwner;
+  const isModerator = user?.role === 'moderator' || isAdmin;
+
+  // Home CMS State
+  const [homeHeroBadge, setHomeHeroBadge] = useState(homeContent.heroBadge);
+  const [homeHeroPrefix, setHomeHeroPrefix] = useState(homeContent.heroTitlePrefix);
+  const [homeHeroHighlight, setHomeHeroHighlight] = useState(homeContent.heroTitleHighlight);
+  const [homeHeroSubtitle, setHomeHeroSubtitle] = useState(homeContent.heroSubtitle);
+  const [homeCalloutTitle, setHomeCalloutTitle] = useState(homeContent.regionalCalloutTitle);
+  const [homeCalloutText, setHomeCalloutText] = useState(homeContent.regionalCalloutText);
+  const [homeSavedMsg, setHomeSavedMsg] = useState(false);
+
+  // Services CMS State
+  const [showNewServiceModal, setShowNewServiceModal] = useState(false);
+  const [editingService, setEditingService] = useState<ServiceItem | null>(null);
+  const [newServiceTitle, setNewServiceTitle] = useState('');
+  const [newServiceCategory, setNewServiceCategory] = useState<'technical' | 'advisory'>('technical');
+  const [newServiceStatus, setNewServiceStatus] = useState('Planning Draft');
+  const [newServiceTag, setNewServiceTag] = useState('Technical Assessment');
+  const [newServiceIcon, setNewServiceIcon] = useState('globe');
+  const [newServiceDesc, setNewServiceDesc] = useState('');
+  const [newServiceDeliverablesText, setNewServiceDeliverablesText] = useState('');
+
+  // Resources & Checklist CMS State
+  const [showNewArticleModal, setShowNewArticleModal] = useState(false);
+  const [newArticleTitle, setNewArticleTitle] = useState('');
+  const [newArticleCategory, setNewArticleCategory] = useState<'checklists' | 'web-security' | 'hygiene' | 'dev-guides'>('web-security');
+  const [newArticleCategoryLabel, setNewArticleCategoryLabel] = useState('Web Security');
+  const [newArticleReadTime, setNewArticleReadTime] = useState('5 min read');
+  const [newArticleDifficulty, setNewArticleDifficulty] = useState<'Beginner' | 'Intermediate' | 'Essential'>('Intermediate');
+  const [newArticleSummary, setNewArticleSummary] = useState('');
+  const [newArticleHighlights, setNewArticleHighlights] = useState('');
+  const [newArticleIntro, setNewArticleIntro] = useState('');
+  const [newArticleSecHeading, setNewArticleSecHeading] = useState('');
+  const [newArticleSecBody, setNewArticleSecBody] = useState('');
+  const [newArticleSecCode, setNewArticleSecCode] = useState('');
+  const [newChecklistText, setNewChecklistText] = useState('');
+
+  // Media Library State
+  const [mediaTitle, setMediaTitle] = useState('');
+  const [mediaCategory, setMediaCategory] = useState<'logo' | 'cover' | 'panel' | 'diagram' | 'general'>('cover');
+  const [copiedAssetId, setCopiedAssetId] = useState<string | null>(null);
+
+  // Site Settings & Backup State
+  const [settingsBrandTitle, setSettingsBrandTitle] = useState(siteSettings.brandTitle);
+  const [settingsBrandSubtitle, setSettingsBrandSubtitle] = useState(siteSettings.brandSubtitle);
+  const [settingsFooterTagline, setSettingsFooterTagline] = useState(siteSettings.footerTagline);
+  const [settingsFooterBadges, setSettingsFooterBadges] = useState(siteSettings.footerBadges.join(', '));
+  const [settingsContactEmail, setSettingsContactEmail] = useState(siteSettings.contactEmail);
+  const [settingsSavedMsg, setSettingsSavedMsg] = useState(false);
+  const [jsonImportText, setJsonImportText] = useState('');
+  const [importStatusMsg, setImportStatusMsg] = useState<string | null>(null);
 
   // Comic CMS state
   const [showNewComicModal, setShowNewComicModal] = useState(false);
@@ -272,6 +358,193 @@ export const PortalPage: React.FC = () => {
     setTimeout(() => setAnnSaved(false), 2500);
   };
 
+  // Home CMS Handlers
+  const handleSaveHome = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateHomeContent({
+      heroBadge: homeHeroBadge,
+      heroTitlePrefix: homeHeroPrefix,
+      heroTitleHighlight: homeHeroHighlight,
+      heroSubtitle: homeHeroSubtitle,
+      regionalCalloutTitle: homeCalloutTitle,
+      regionalCalloutText: homeCalloutText,
+    });
+    setHomeSavedMsg(true);
+    setTimeout(() => setHomeSavedMsg(false), 2500);
+  };
+
+  // Services CMS Handlers
+  const handleCreateService = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newServiceTitle.trim()) return;
+    const deliverables = newServiceDeliverablesText
+      .split('\n')
+      .map((d) => d.trim())
+      .filter(Boolean);
+
+    addService({
+      category: newServiceCategory,
+      title: newServiceTitle.trim(),
+      status: newServiceStatus.trim() || 'Planning Draft',
+      tag: newServiceTag.trim() || 'Technical Assessment',
+      icon: newServiceIcon,
+      description: newServiceDesc.trim(),
+      deliverables: deliverables.length > 0 ? deliverables : ['Standard defensive evaluation'],
+    });
+
+    setNewServiceTitle('');
+    setNewServiceDesc('');
+    setNewServiceDeliverablesText('');
+    setShowNewServiceModal(false);
+  };
+
+  const handleSaveEditService = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingService) return;
+    updateService(editingService.id, editingService);
+    setEditingService(null);
+  };
+
+  // Resources CMS Handlers
+  const handleCreateArticle = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newArticleTitle.trim()) return;
+    const highlights = newArticleHighlights
+      .split('\n')
+      .map((h) => h.trim())
+      .filter(Boolean);
+
+    const articleSections = [
+      {
+        heading: newArticleSecHeading.trim() || 'Implementation Guidance',
+        body: newArticleSecBody.trim() || 'Ensure defensive best practices are applied across systems.',
+        code: newArticleSecCode.trim() || undefined,
+      },
+    ];
+    const articleIntro =
+      newArticleIntro.trim() || 'Security documentation authored by Foxbat Intelligence.';
+
+    addArticle({
+      category: newArticleCategory,
+      categoryLabel: newArticleCategoryLabel,
+      title: newArticleTitle.trim(),
+      summary: newArticleSummary.trim(),
+      readTime: newArticleReadTime.trim(),
+      difficulty: newArticleDifficulty,
+      highlights: highlights.length > 0 ? highlights : ['Implementation guidelines'],
+      intro: articleIntro,
+      sections: articleSections,
+      fullContent: {
+        intro: articleIntro,
+        sections: articleSections,
+      },
+    });
+
+    setNewArticleTitle('');
+    setNewArticleSummary('');
+    setNewArticleHighlights('');
+    setNewArticleIntro('');
+    setNewArticleSecHeading('');
+    setNewArticleSecBody('');
+    setNewArticleSecCode('');
+    setShowNewArticleModal(false);
+  };
+
+  const handleAddChecklist = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newChecklistText.trim()) return;
+    addChecklistItem(newChecklistText.trim());
+    setNewChecklistText('');
+  };
+
+  // Media Library Handlers
+  const handleMediaUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 8 * 1024 * 1024) {
+        alert('File size exceeds 8MB. Please choose a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target?.result as string;
+        addMediaAsset({
+          title: mediaTitle.trim() || file.name,
+          url: dataUrl,
+          category: mediaCategory,
+          sizeBytes: file.size,
+        });
+        setMediaTitle('');
+        alert(`Asset "${file.name}" uploaded to Media Library! You can now copy its URL.`);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCopyAssetUrl = (id: string, url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedAssetId(id);
+    setTimeout(() => setCopiedAssetId(null), 2500);
+  };
+
+  // Site Settings & Backup Handlers
+  const handleSaveSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    const badges = settingsFooterBadges
+      .split(',')
+      .map((b) => b.trim())
+      .filter(Boolean);
+    updateSiteSettings({
+      brandTitle: settingsBrandTitle,
+      brandSubtitle: settingsBrandSubtitle,
+      footerTagline: settingsFooterTagline,
+      footerBadges: badges.length > 0 ? badges : ['Student-Led Initiative', 'Mission Secure Web Bangladesh'],
+      contactEmail: settingsContactEmail,
+    });
+    setSettingsSavedMsg(true);
+    setTimeout(() => setSettingsSavedMsg(false), 2500);
+  };
+
+  const handleExportBackup = () => {
+    const jsonStr = exportAllContentJson();
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `foxbat_cms_backup_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportBackup = () => {
+    if (!jsonImportText.trim()) {
+      alert('Please paste backup JSON first or upload a backup file.');
+      return;
+    }
+    const success = importAllContentJson(jsonImportText);
+    if (success) {
+      setImportStatusMsg('Backup restored successfully! All pages and CMS state updated.');
+      setJsonImportText('');
+      setTimeout(() => setImportStatusMsg(null), 4000);
+    } else {
+      setImportStatusMsg('Error: Invalid JSON format. Please verify the file.');
+    }
+  };
+
+  const handleBackupFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result as string;
+        setJsonImportText(text);
+      };
+      reader.readAsText(file);
+    }
+  };
+
   const filteredOrders =
     orderFilter === 'all' ? orders : orders.filter((o) => o.status === orderFilter);
 
@@ -344,6 +617,50 @@ export const PortalPage: React.FC = () => {
               <ActivityIcon size={16} /> Operations Overview
             </button>
 
+            {isAdmin && (
+              <>
+                <button
+                  type="button"
+                  className={`portal-tab-btn ${activeTab === 'home-cms' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('home-cms')}
+                >
+                  <GlobeIcon size={16} /> Home Page Editor
+                </button>
+
+                <button
+                  type="button"
+                  className={`portal-tab-btn ${activeTab === 'services-cms' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('services-cms')}
+                >
+                  <ShieldCheckIcon size={16} /> Services Catalog ({servicesList.length})
+                </button>
+
+                <button
+                  type="button"
+                  className={`portal-tab-btn ${activeTab === 'resources-cms' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('resources-cms')}
+                >
+                  <FileTextIcon size={16} /> Resources & Checklist ({resourcesArticles.length})
+                </button>
+
+                <button
+                  type="button"
+                  className={`portal-tab-btn ${activeTab === 'media-library' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('media-library')}
+                >
+                  <UploadIcon size={16} /> Media Assets ({mediaAssets.length})
+                </button>
+
+                <button
+                  type="button"
+                  className={`portal-tab-btn ${activeTab === 'site-settings' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('site-settings')}
+                >
+                  <SettingsIcon size={16} /> Global Settings & Backup
+                </button>
+              </>
+            )}
+
             <button
               type="button"
               className={`portal-tab-btn ${activeTab === 'comics' ? 'active' : ''}`}
@@ -352,31 +669,37 @@ export const PortalPage: React.FC = () => {
               <FileTextIcon size={16} /> Sci-Fi Comics Studio ({comics.length})
             </button>
 
-            <button
-              type="button"
-              className={`portal-tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
-              onClick={() => setActiveTab('orders')}
-            >
-              <ShieldCheckIcon size={16} /> Orders & Requests ({orders.length})
-            </button>
+            {isOwner && (
+              <button
+                type="button"
+                className={`portal-tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
+                onClick={() => setActiveTab('orders')}
+              >
+                <ShieldCheckIcon size={16} /> Orders & Requests ({orders.length})
+              </button>
+            )}
 
-            <button
-              type="button"
-              className={`portal-tab-btn ${activeTab === 'comments' ? 'active' : ''}`}
-              onClick={() => setActiveTab('comments')}
-            >
-              <UsersIcon size={16} /> Comments & Feedback ({comments.length})
-            </button>
+            {isModerator && (
+              <button
+                type="button"
+                className={`portal-tab-btn ${activeTab === 'comments' ? 'active' : ''}`}
+                onClick={() => setActiveTab('comments')}
+              >
+                <UsersIcon size={16} /> Comments & Feedback ({comments.length})
+              </button>
+            )}
 
-            <button
-              type="button"
-              className={`portal-tab-btn ${activeTab === 'announcement' ? 'active' : ''}`}
-              onClick={() => setActiveTab('announcement')}
-            >
-              <TerminalIcon size={16} /> Site Announcements
-            </button>
+            {isModerator && (
+              <button
+                type="button"
+                className={`portal-tab-btn ${activeTab === 'announcement' ? 'active' : ''}`}
+                onClick={() => setActiveTab('announcement')}
+              >
+                <TerminalIcon size={16} /> Site Announcements
+              </button>
+            )}
 
-            {user.role === 'owner' && (
+            {isOwner && (
               <button
                 type="button"
                 className={`portal-tab-btn ${activeTab === 'oversight' ? 'active' : ''}`}
@@ -450,6 +773,45 @@ export const PortalPage: React.FC = () => {
                     Moderate Comments &rarr;
                   </button>
                 </div>
+
+                <div className="portal-card">
+                  <div className="card-header-icon">
+                    <ShieldCheckIcon size={22} className="text-cyan" />
+                    <h3>Assessment Services</h3>
+                  </div>
+                  <p className="card-desc">Active technical & advisory services catalog.</p>
+                  <div className="stat-giant-num">{servicesList.length}</div>
+                  <p className="stat-subtext">
+                    {servicesList.filter((s) => s.category === 'technical').length} technical •{' '}
+                    {servicesList.filter((s) => s.category === 'advisory').length} advisory
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-sm"
+                    onClick={() => setActiveTab('services-cms')}
+                  >
+                    Manage Catalog &rarr;
+                  </button>
+                </div>
+
+                <div className="portal-card">
+                  <div className="card-header-icon">
+                    <UploadIcon size={22} className="text-blue" />
+                    <h3>Media Asset Library</h3>
+                  </div>
+                  <p className="card-desc">Images, logos, covers, and scene panels.</p>
+                  <div className="stat-giant-num">{mediaAssets.length}</div>
+                  <p className="stat-subtext">
+                    In-browser data URL assets ready for copy & paste
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-sm"
+                    onClick={() => setActiveTab('media-library')}
+                  >
+                    Open Media Library &rarr;
+                  </button>
+                </div>
               </div>
 
               {/* System State Notice */}
@@ -457,8 +819,617 @@ export const PortalPage: React.FC = () => {
                 <div className="operational-boundary-notice">
                   <CheckCircleIcon size={18} className="text-cyan" />
                   <span>
-                    <strong>Admin Direct Management Mode Active:</strong> You can upload stories, add pages, update cover artwork, manage client orders, and publish reader comments directly from this browser terminal. All changes persist automatically in your browser and instantly update the public site!
+                    <strong>Admin Direct Management Mode Active:</strong> You can upload stories, add pages, update cover artwork, customize page copy, manage services, upload media, and publish reader comments directly from this browser terminal. All changes persist automatically in your browser and instantly update the public site!
                   </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: HOME PAGE CMS */}
+          {activeTab === 'home-cms' && isAdmin && (
+            <div className="portal-tab-pane">
+              <div className="portal-card">
+                <div className="card-header-icon">
+                  <GlobeIcon size={22} className="text-cyan" />
+                  <h3>Home Page Content & Hero Editor</h3>
+                </div>
+                <p className="card-desc">
+                  Customize the public landing page hero text, badges, regional mission callout, and pillars without touching any code.
+                </p>
+
+                <form onSubmit={handleSaveHome} className="portal-form">
+                  <div className="form-row">
+                    <div className="form-group flex-1">
+                      <label className="form-label">Hero Pill Badge</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={homeHeroBadge}
+                        onChange={(e) => setHomeHeroBadge(e.target.value)}
+                        placeholder="e.g. Safer Websites. Smarter Digital Communities."
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group flex-1">
+                      <label className="form-label">Hero Title Prefix</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={homeHeroPrefix}
+                        onChange={(e) => setHomeHeroPrefix(e.target.value)}
+                        placeholder="Welcome to"
+                        required
+                      />
+                    </div>
+                    <div className="form-group flex-1">
+                      <label className="form-label">Hero Title Highlight</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={homeHeroHighlight}
+                        onChange={(e) => setHomeHeroHighlight(e.target.value)}
+                        placeholder="Foxbat Intelligence"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Hero Subtitle / Mission Statement</label>
+                    <textarea
+                      className="form-textarea"
+                      rows={3}
+                      value={homeHeroSubtitle}
+                      onChange={(e) => setHomeHeroSubtitle(e.target.value)}
+                      placeholder="Advancing web application security..."
+                      required
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group flex-1">
+                      <label className="form-label">Regional Mission Callout Title</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={homeCalloutTitle}
+                        onChange={(e) => setHomeCalloutTitle(e.target.value)}
+                        placeholder="Regional Mission"
+                        required
+                      />
+                    </div>
+                    <div className="form-group flex-2">
+                      <label className="form-label">Regional Mission Callout Text</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={homeCalloutText}
+                        onChange={(e) => setHomeCalloutText(e.target.value)}
+                        placeholder="Mission Secure Web Bangladesh: ..."
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="portal-flex-header mt-4">
+                    <button type="submit" className="btn-primary">
+                      Save & Publish Home Page Updates
+                    </button>
+                    {homeSavedMsg && (
+                      <span className="text-success font-bold flex items-center gap-1">
+                        ✓ Changes Saved & Applied to Live Home Page!
+                      </span>
+                    )}
+                  </div>
+                </form>
+
+                <hr className="divider-subtle my-6" />
+
+                <div className="cms-preview-banner">
+                  <h4>Live Home Preview</h4>
+                  <p className="subtext">
+                    Current heading: <strong>{homeHeroPrefix} {homeHeroHighlight}</strong>
+                  </p>
+                  <p className="subtext">
+                    Badge: <em>{homeHeroBadge}</em>
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-sm mt-3"
+                    onClick={() => {
+                      if (confirm('Reset home page content to factory defaults?')) {
+                        resetHomeContent();
+                        setHomeHeroBadge(homeContent.heroBadge);
+                        setHomeHeroPrefix(homeContent.heroTitlePrefix);
+                        setHomeHeroHighlight(homeContent.heroTitleHighlight);
+                        setHomeHeroSubtitle(homeContent.heroSubtitle);
+                        setHomeCalloutTitle(homeContent.regionalCalloutTitle);
+                        setHomeCalloutText(homeContent.regionalCalloutText);
+                      }
+                    }}
+                  >
+                    Reset Home Content to Defaults
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB: SERVICES CATALOG CMS */}
+          {activeTab === 'services-cms' && isAdmin && (
+            <div className="portal-tab-pane">
+              <div className="portal-flex-header">
+                <div>
+                  <h3 className="section-subtitle">Planned Services Catalog</h3>
+                  <p className="card-desc">
+                    Configure technical and advisory offerings shown on /services.
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="btn-primary btn-sm"
+                    onClick={() => setShowNewServiceModal(true)}
+                  >
+                    <PlusIcon size={14} /> Add New Service
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-sm"
+                    onClick={() => {
+                      if (confirm('Reset services to factory defaults?')) {
+                        resetServices();
+                      }
+                    }}
+                  >
+                    Reset Defaults
+                  </button>
+                </div>
+              </div>
+
+              {/* Service List Cards */}
+              <div className="cms-items-list mt-4">
+                {servicesList.map((service) => (
+                  <div key={service.id} className="portal-card cms-item-card mb-4">
+                    <div className="cms-card-top">
+                      <div className="flex items-center gap-2">
+                        <span className="badge-cyan">{service.tag}</span>
+                        <span className="badge-pill pill-secondary">{service.category.toUpperCase()}</span>
+                        <span className="badge-pill pill-cyan">{service.status}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          className="btn-secondary btn-sm"
+                          onClick={() => setEditingService(service)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-danger btn-sm"
+                          onClick={() => {
+                            if (confirm(`Delete service "${service.title}"?`)) {
+                              deleteService(service.id);
+                            }
+                          }}
+                        >
+                          <TrashIcon size={14} />
+                        </button>
+                      </div>
+                    </div>
+                    <h3 className="cms-item-title mt-2">{service.title}</h3>
+                    <p className="cms-item-desc">{service.description}</p>
+                    <div className="cms-deliverables-box mt-2">
+                      <strong>Planned Scope / Deliverables:</strong>
+                      <ul className="cms-deliverables-list">
+                        {service.deliverables.map((d, i) => (
+                          <li key={i}>▸ {d}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: RESOURCES & CHECKLIST CMS */}
+          {activeTab === 'resources-cms' && isAdmin && (
+            <div className="portal-tab-pane">
+              <div className="portal-flex-header">
+                <div>
+                  <h3 className="section-subtitle">Knowledge Center & Security Checklist</h3>
+                  <p className="card-desc">
+                    Manage technical guides on /resources and customize the interactive website launch checklist.
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    className="btn-primary btn-sm"
+                    onClick={() => setShowNewArticleModal(true)}
+                  >
+                    <PlusIcon size={14} /> Add Technical Guide
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-sm"
+                    onClick={() => {
+                      if (confirm('Reset articles and checklist to default?')) {
+                        resetArticles();
+                        resetChecklist();
+                      }
+                    }}
+                  >
+                    Reset Defaults
+                  </button>
+                </div>
+              </div>
+
+              {/* Checklist Section Manager */}
+              <div className="portal-card my-6">
+                <div className="card-header-icon">
+                  <ShieldCheckIcon size={22} className="text-cyan" />
+                  <h3>Interactive Security Checklist Manager</h3>
+                </div>
+                <p className="card-desc">
+                  These items appear on the public /resources checklist tool for website owners.
+                </p>
+
+                <form onSubmit={handleAddChecklist} className="checklist-add-form mb-4 flex gap-2">
+                  <input
+                    type="text"
+                    className="form-input flex-1"
+                    placeholder="e.g. Enforce DNS CAA records to restrict certificate issuance"
+                    value={newChecklistText}
+                    onChange={(e) => setNewChecklistText(e.target.value)}
+                    required
+                  />
+                  <button type="submit" className="btn-primary btn-sm whitespace-nowrap">
+                    <PlusIcon size={14} /> Add Checklist Item
+                  </button>
+                </form>
+
+                <div className="cms-checklist-items">
+                  {checklistItems.map((item) => (
+                    <div key={item.id} className="cms-checklist-row">
+                      <span className="flex-1 text-sm font-mono text-slate-300">
+                        {item.id}. {item.text}
+                      </span>
+                      <button
+                        type="button"
+                        className="btn-table-reject"
+                        onClick={() => deleteChecklistItem(item.id)}
+                        title="Delete checklist item"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Guides List */}
+              <h3 className="portal-subheading mb-3">Published Technical Guides ({resourcesArticles.length})</h3>
+              <div className="cms-items-list">
+                {resourcesArticles.map((article) => (
+                  <div key={article.id} className="portal-card cms-item-card mb-4">
+                    <div className="cms-card-top">
+                      <div className="flex items-center gap-2">
+                        <span className="badge-cyan">{article.categoryLabel}</span>
+                        <span className="badge-pill pill-secondary">{article.difficulty}</span>
+                        <span className="badge-pill pill-cyan">{article.readTime}</span>
+                      </div>
+                      <button
+                        type="button"
+                        className="btn-danger btn-sm"
+                        onClick={() => {
+                          if (confirm(`Delete guide "${article.title}"?`)) {
+                            deleteArticle(article.id);
+                          }
+                        }}
+                      >
+                        <TrashIcon size={14} /> Delete
+                      </button>
+                    </div>
+                    <h3 className="cms-item-title mt-2">{article.title}</h3>
+                    <p className="cms-item-desc">{article.summary}</p>
+                    <div className="cms-highlights mt-2">
+                      <strong>Key Highlights:</strong>
+                      <ul className="cms-deliverables-list">
+                        {article.highlights.map((h, i) => (
+                          <li key={i}>▸ {h}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: MEDIA ASSETS LIBRARY */}
+          {activeTab === 'media-library' && isAdmin && (
+            <div className="portal-tab-pane">
+              <div className="portal-card mb-6">
+                <div className="card-header-icon">
+                  <UploadIcon size={22} className="text-cyan" />
+                  <h3>Upload New Media Asset</h3>
+                </div>
+                <p className="card-desc">
+                  Upload images, logos, covers, or diagrams directly from your browser. Uploaded assets are securely converted to persistent data URLs that you can paste anywhere on the site (comic covers, panels, articles, or services).
+                </p>
+
+                <div className="form-row mt-4">
+                  <div className="form-group flex-1">
+                    <label className="form-label">Asset Title / Label</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={mediaTitle}
+                      onChange={(e) => setMediaTitle(e.target.value)}
+                      placeholder="e.g. Foxbat Cyber Shield Banner"
+                    />
+                  </div>
+                  <div className="form-group flex-1">
+                    <label className="form-label">Category</label>
+                    <select
+                      className="form-select"
+                      value={mediaCategory}
+                      onChange={(e) =>
+                        setMediaCategory(
+                          e.target.value as 'logo' | 'cover' | 'panel' | 'diagram' | 'general'
+                        )
+                      }
+                    >
+                      <option value="cover">Story / Comic Cover</option>
+                      <option value="panel">Comic Scene Panel</option>
+                      <option value="diagram">Technical Diagram</option>
+                      <option value="logo">Brand Emblem / Logo</option>
+                      <option value="general">General Asset</option>
+                    </select>
+                  </div>
+                  <div className="form-group flex-1">
+                    <label className="form-label">Select Image File (Max 8MB)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleMediaUpload}
+                      className="form-file-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="asset-usage-tip mt-3">
+                  💡 <strong>How to use:</strong> After uploading, click <em>"Copy Image URL"</em> on any asset card below. You can paste the copied URL directly into any Comic Cover, Scene Panel, or Article!
+                </div>
+              </div>
+
+              {/* Media Assets Grid */}
+              <div className="media-assets-grid">
+                {mediaAssets.length === 0 ? (
+                  <div className="admin-empty-table-state">
+                    <UploadIcon size={36} className="text-cyan mb-2" />
+                    <h4>Media Library is Empty</h4>
+                    <p>Upload your first story cover, panel artwork, or technical illustration above.</p>
+                  </div>
+                ) : (
+                  mediaAssets.map((asset: MediaAsset) => (
+                    <div key={asset.id} className="media-asset-card">
+                      <div className="asset-thumb-container">
+                        <img src={asset.url} alt={asset.title} className="asset-thumb-img" />
+                        <span className="asset-category-badge">{asset.category.toUpperCase()}</span>
+                      </div>
+                      <div className="asset-meta-info">
+                        <h4 className="asset-title-text" title={asset.title}>{asset.title}</h4>
+                        <span className="asset-date-text">
+                          {new Date(asset.createdAt).toLocaleDateString()} • {Math.round(asset.sizeBytes / 1024)} KB
+                        </span>
+                      </div>
+                      <div className="asset-card-actions">
+                        <button
+                          type="button"
+                          className="btn-primary btn-sm flex-1"
+                          onClick={() => handleCopyAssetUrl(asset.id, asset.url)}
+                        >
+                          {copiedAssetId === asset.id ? '✓ Copied URL!' : 'Copy Image URL'}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-danger btn-sm"
+                          onClick={() => {
+                            if (confirm(`Delete asset "${asset.title}"?`)) {
+                              deleteMediaAsset(asset.id);
+                            }
+                          }}
+                          title="Delete asset"
+                        >
+                          <TrashIcon size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: GLOBAL SETTINGS & JSON BACKUP */}
+          {activeTab === 'site-settings' && isAdmin && (
+            <div className="portal-tab-pane">
+              <div className="portal-card mb-6">
+                <div className="card-header-icon">
+                  <SettingsIcon size={22} className="text-cyan" />
+                  <h3>Global Site Identity & Footer Settings</h3>
+                </div>
+                <p className="card-desc">
+                  Customize the brand title, subtitle, footer tagline, and footer community badges across all pages.
+                </p>
+
+                <form onSubmit={handleSaveSettings} className="portal-form">
+                  <div className="form-row">
+                    <div className="form-group flex-1">
+                      <label className="form-label">Brand Title</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={settingsBrandTitle}
+                        onChange={(e) => setSettingsBrandTitle(e.target.value)}
+                        placeholder="Foxbat Intelligence"
+                        required
+                      />
+                    </div>
+                    <div className="form-group flex-1">
+                      <label className="form-label">Brand Subtitle</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={settingsBrandSubtitle}
+                        onChange={(e) => setSettingsBrandSubtitle(e.target.value)}
+                        placeholder="Cybersecurity & Awareness"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group flex-2">
+                      <label className="form-label">Footer Tagline</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        value={settingsFooterTagline}
+                        onChange={(e) => setSettingsFooterTagline(e.target.value)}
+                        placeholder="Safer Websites. Smarter Digital Communities."
+                        required
+                      />
+                    </div>
+                    <div className="form-group flex-1">
+                      <label className="form-label">Official Contact Email</label>
+                      <input
+                        type="email"
+                        className="form-input"
+                        value={settingsContactEmail}
+                        onChange={(e) => setSettingsContactEmail(e.target.value)}
+                        placeholder="info@foxbatintelligence.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Footer Badges (comma-separated)</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={settingsFooterBadges}
+                      onChange={(e) => setSettingsFooterBadges(e.target.value)}
+                      placeholder="Student-Led Initiative, Mission Secure Web Bangladesh"
+                      required
+                    />
+                  </div>
+
+                  <div className="portal-flex-header mt-4">
+                    <button type="submit" className="btn-primary">
+                      Save Global Site Settings
+                    </button>
+                    {settingsSavedMsg && (
+                      <span className="text-success font-bold flex items-center gap-1">
+                        ✓ Settings Applied to Navbar & Footer!
+                      </span>
+                    )}
+                  </div>
+                </form>
+              </div>
+
+              {/* Disaster Recovery & JSON Backup Export/Import */}
+              <div className="portal-card">
+                <div className="card-header-icon">
+                  <TerminalIcon size={22} className="text-cyan" />
+                  <h3>Full Site Backup & Disaster Recovery (JSON)</h3>
+                </div>
+                <p className="card-desc">
+                  Export the entire site state (all comics, pages, services, articles, checklist items, media assets, and settings) as a portable JSON file. You can restore this backup on any device or deployment at any time!
+                </p>
+
+                <div className="backup-actions-grid my-4">
+                  <div className="backup-action-card">
+                    <h4>1. Export Full Backup</h4>
+                    <p className="subtext">
+                      Download a single JSON file containing all customized site content, stories, and media.
+                    </p>
+                    <button
+                      type="button"
+                      className="btn-primary btn-sm mt-3"
+                      onClick={handleExportBackup}
+                    >
+                      Export Full Backup JSON
+                    </button>
+                  </div>
+
+                  <div className="backup-action-card">
+                    <h4>2. Restore from Backup</h4>
+                    <p className="subtext">
+                      Upload a backup file or paste JSON code to restore your website instantly.
+                    </p>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleBackupFileUpload}
+                      className="form-file-input mt-2"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group mt-3">
+                  <label className="form-label">Or Paste Backup JSON Code:</label>
+                  <textarea
+                    className="form-textarea font-mono text-xs"
+                    rows={4}
+                    value={jsonImportText}
+                    onChange={(e) => setJsonImportText(e.target.value)}
+                    placeholder='{"version": 2, "home": {...}, "comics": [...]}'
+                  />
+                  <div className="portal-flex-header mt-2">
+                    <button
+                      type="button"
+                      className="btn-secondary btn-sm"
+                      onClick={handleImportBackup}
+                    >
+                      Restore All Content from JSON
+                    </button>
+                    {importStatusMsg && (
+                      <span className={`font-bold text-sm ${importStatusMsg.startsWith('Error') ? 'text-danger' : 'text-success'}`}>
+                        {importStatusMsg}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <hr className="divider-subtle my-6" />
+
+                <div className="reset-danger-zone">
+                  <h4>Factory Reset Entire Website</h4>
+                  <p className="subtext">
+                    Restore all pages, services, articles, checklist, comics, and settings to original factory defaults.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-danger btn-sm"
+                    onClick={() => {
+                      if (confirm('DANGER: This will reset ALL CMS content, stories, articles, and settings to original defaults. Are you sure?')) {
+                        resetAllToFactoryDefaults();
+                        alert('All site content has been reset to defaults.');
+                      }
+                    }}
+                  >
+                    Factory Reset Entire Website
+                  </button>
                 </div>
               </div>
             </div>
@@ -1541,6 +2512,355 @@ export const PortalPage: React.FC = () => {
           comic={previewingComic}
           onClose={() => setPreviewingComic(null)}
         />
+      )}
+
+      {/* Modal: Add New Service */}
+      {showNewServiceModal && (
+        <div className="modal-backdrop">
+          <div className="modal-window">
+            <div className="modal-header">
+              <h3 className="modal-title">Add New Service Framework</h3>
+              <button
+                type="button"
+                className="modal-close-btn"
+                onClick={() => setShowNewServiceModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleCreateService} className="modal-form">
+              <div className="form-row">
+                <div className="form-group flex-2">
+                  <label className="form-label">Service Title</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newServiceTitle}
+                    onChange={(e) => setNewServiceTitle(e.target.value)}
+                    placeholder="e.g. Cloud API Security Assessment"
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Category</label>
+                  <select
+                    className="form-select"
+                    value={newServiceCategory}
+                    onChange={(e) =>
+                      setNewServiceCategory(e.target.value as 'technical' | 'advisory')
+                    }
+                  >
+                    <option value="technical">Technical</option>
+                    <option value="advisory">Advisory</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label className="form-label">Tag / Domain</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newServiceTag}
+                    onChange={(e) => setNewServiceTag(e.target.value)}
+                    placeholder="e.g. API Protection"
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Status</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newServiceStatus}
+                    onChange={(e) => setNewServiceStatus(e.target.value)}
+                    placeholder="Planning Draft"
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Icon</label>
+                  <select
+                    className="form-select"
+                    value={newServiceIcon}
+                    onChange={(e) => setNewServiceIcon(e.target.value)}
+                  >
+                    <option value="globe">Globe (Web Apps)</option>
+                    <option value="shield">Shield (Risk & Defense)</option>
+                    <option value="file">File (Deliverables & Audits)</option>
+                    <option value="handshake">Handshake (Advisory)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Service Description</label>
+                <textarea
+                  className="form-textarea"
+                  rows={3}
+                  value={newServiceDesc}
+                  onChange={(e) => setNewServiceDesc(e.target.value)}
+                  placeholder="Detailed description of the assessment scope..."
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Planned Deliverables (One per line)</label>
+                <textarea
+                  className="form-textarea"
+                  rows={3}
+                  value={newServiceDeliverablesText}
+                  onChange={(e) => setNewServiceDeliverablesText(e.target.value)}
+                  placeholder="API Endpoint Schema Validation&#10;Rate-limiting evaluation&#10;JWT token tampering checks"
+                  required
+                />
+              </div>
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowNewServiceModal(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary">
+                  Publish Service to Catalog
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Edit Service */}
+      {editingService && (
+        <div className="modal-backdrop">
+          <div className="modal-window">
+            <div className="modal-header">
+              <h3 className="modal-title">Edit Service: {editingService.title}</h3>
+              <button
+                type="button"
+                className="modal-close-btn"
+                onClick={() => setEditingService(null)}
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleSaveEditService} className="modal-form">
+              <div className="form-group">
+                <label className="form-label">Title</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={editingService.title}
+                  onChange={(e) =>
+                    setEditingService({ ...editingService, title: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label className="form-label">Tag</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={editingService.tag}
+                    onChange={(e) =>
+                      setEditingService({ ...editingService, tag: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Status</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={editingService.status}
+                    onChange={(e) =>
+                      setEditingService({ ...editingService, status: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Description</label>
+                <textarea
+                  className="form-textarea"
+                  rows={3}
+                  value={editingService.description}
+                  onChange={(e) =>
+                    setEditingService({ ...editingService, description: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setEditingService(null)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add New Article */}
+      {showNewArticleModal && (
+        <div className="modal-backdrop">
+          <div className="modal-window">
+            <div className="modal-header">
+              <h3 className="modal-title">Add Technical Guide to Knowledge Center</h3>
+              <button
+                type="button"
+                className="modal-close-btn"
+                onClick={() => setShowNewArticleModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleCreateArticle} className="modal-form">
+              <div className="form-row">
+                <div className="form-group flex-2">
+                  <label className="form-label">Article Title</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newArticleTitle}
+                    onChange={(e) => setNewArticleTitle(e.target.value)}
+                    placeholder="e.g. Zero-Trust Access Control Architecture"
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Category</label>
+                  <select
+                    className="form-select"
+                    value={newArticleCategory}
+                    onChange={(e) => {
+                      const cat = e.target.value as
+                        | 'checklists'
+                        | 'web-security'
+                        | 'hygiene'
+                        | 'dev-guides';
+                      setNewArticleCategory(cat);
+                      if (cat === 'web-security') setNewArticleCategoryLabel('Web Security');
+                      else if (cat === 'dev-guides') setNewArticleCategoryLabel('Developer Guides');
+                      else if (cat === 'hygiene') setNewArticleCategoryLabel('Cyber Hygiene');
+                      else setNewArticleCategoryLabel('Checklists');
+                    }}
+                  >
+                    <option value="web-security">Web Security</option>
+                    <option value="dev-guides">Developer Guides</option>
+                    <option value="hygiene">Cyber Hygiene</option>
+                    <option value="checklists">Checklists</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label className="form-label">Read Time</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={newArticleReadTime}
+                    onChange={(e) => setNewArticleReadTime(e.target.value)}
+                    placeholder="e.g. 7 min read"
+                    required
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label className="form-label">Difficulty</label>
+                  <select
+                    className="form-select"
+                    value={newArticleDifficulty}
+                    onChange={(e) =>
+                      setNewArticleDifficulty(
+                        e.target.value as 'Beginner' | 'Intermediate' | 'Essential'
+                      )
+                    }
+                  >
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Essential">Essential</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Article Summary</label>
+                <textarea
+                  className="form-textarea"
+                  rows={2}
+                  value={newArticleSummary}
+                  onChange={(e) => setNewArticleSummary(e.target.value)}
+                  placeholder="Concise overview of what readers will learn..."
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Key Highlights (One per line)</label>
+                <textarea
+                  className="form-textarea"
+                  rows={3}
+                  value={newArticleHighlights}
+                  onChange={(e) => setNewArticleHighlights(e.target.value)}
+                  placeholder="Key point 1&#10;Key point 2&#10;Key point 3"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Section Heading</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={newArticleSecHeading}
+                  onChange={(e) => setNewArticleSecHeading(e.target.value)}
+                  placeholder="e.g. Implementation Protocol"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Section Body Text</label>
+                <textarea
+                  className="form-textarea"
+                  rows={3}
+                  value={newArticleSecBody}
+                  onChange={(e) => setNewArticleSecBody(e.target.value)}
+                  placeholder="Detailed technical instructions and recommendations..."
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Optional Code Snippet</label>
+                <textarea
+                  className="form-textarea font-mono text-xs"
+                  rows={2}
+                  value={newArticleSecCode}
+                  onChange={(e) => setNewArticleSecCode(e.target.value)}
+                  placeholder="// Example configuration or code..."
+                />
+              </div>
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowNewArticleModal(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary">
+                  Publish Article to Knowledge Center
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

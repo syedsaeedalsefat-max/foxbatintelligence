@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
+import { useContent } from '../context/ContentContext';
 import foxbatLogo from '../../image_foxbat_logo.png';
 import {
   ShieldIcon,
@@ -11,6 +12,21 @@ import {
 } from '../components/Icons';
 
 export const HomePage: React.FC = () => {
+  const { homeContent } = useContent();
+
+  const renderStrengthIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'lock':
+        return <LockIcon size={20} />;
+      case 'file':
+        return <FileTextIcon size={20} />;
+      case 'graduation':
+        return <GraduationCapIcon size={20} />;
+      default:
+        return <ShieldIcon size={20} />;
+    }
+  };
+
   return (
     <div className="page-wrapper home-page">
       {/* Hero Section */}
@@ -19,7 +35,7 @@ export const HomePage: React.FC = () => {
         <div className="section-container hero-container">
           <div className="hero-badge">
             <span className="badge-pulse-dot" aria-hidden="true"></span>
-            Safer Websites. Smarter Digital Communities.
+            {homeContent.heroBadge}
           </div>
 
           <div className="hero-crest-container">
@@ -33,12 +49,12 @@ export const HomePage: React.FC = () => {
           </div>
 
           <h1 id="hero-title" className="hero-title">
-            Welcome to <span className="hero-title-highlight">Foxbat Intelligence</span>
+            {homeContent.heroTitlePrefix}{' '}
+            <span className="hero-title-highlight">{homeContent.heroTitleHighlight}</span>
           </h1>
 
           <p className="hero-subtitle">
-            Advancing web application security through structured technical assessment planning
-            and empowering digital communities through student-driven cyber safety education.
+            {homeContent.heroSubtitle}
           </p>
 
           {/* Equal Priority Dual CTAs */}
@@ -55,10 +71,9 @@ export const HomePage: React.FC = () => {
 
           {/* Regional Mission Callout */}
           <div className="hero-mission-callout" role="note">
-            <span className="callout-pill">Regional Mission</span>
+            <span className="callout-pill">{homeContent.regionalCalloutTitle}</span>
             <span className="callout-text">
-              <strong>Mission Secure Web Bangladesh:</strong> Fostering defensive capabilities,
-              resilient website practices, and digital awareness for local platforms.
+              {homeContent.regionalCalloutText}
             </span>
           </div>
         </div>
@@ -77,87 +92,46 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="pillars-grid">
-            {/* Pillar 1: Cybersecurity Services */}
-            <div className="pillar-card services-pillar">
-              <div className="pillar-header">
-                <span className="pillar-icon" aria-hidden="true">
-                  <ShieldIcon size={24} />
-                </span>
-                <span className="pillar-tag">Technical Domain</span>
-                <h3 className="pillar-title">Cybersecurity Services</h3>
+            {homeContent.missionPillars.map((pillar) => (
+              <div
+                key={pillar.id}
+                className={`pillar-card ${
+                  pillar.id === 'pillar-services' ? 'services-pillar' : 'community-pillar'
+                }`}
+              >
+                <div className="pillar-header">
+                  <span className="pillar-icon" aria-hidden="true">
+                    {pillar.id === 'pillar-services' ? (
+                      <ShieldIcon size={24} />
+                    ) : (
+                      <UsersIcon size={24} />
+                    )}
+                  </span>
+                  <span className="pillar-tag">{pillar.domainTag}</span>
+                  <h3 className="pillar-title">{pillar.title}</h3>
+                </div>
+                <p className="pillar-desc">{pillar.description}</p>
+                <ul className="pillar-feature-list">
+                  {(pillar.features || []).map((feat, idx) => (
+                    <li key={idx}>
+                      <span className="feature-check" aria-hidden="true">
+                        <CheckIcon size={14} />
+                      </span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="pillar-footer">
+                  <Link
+                    href={pillar.buttonLink === '/services' ? '/services' : '/resources'}
+                    className="link-button"
+                  >
+                    {pillar.buttonText}
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               </div>
-              <p className="pillar-desc">
-                Structured technical assessment frameworks designed to evaluate web applications,
-                identify OWASP vulnerabilities, and deliver prioritized remediation reports.
-              </p>
-              <ul className="pillar-feature-list">
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Web application security testing & vulnerability scans</span>
-                </li>
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Actionable reporting with step-by-step reproduction</span>
-                </li>
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Strict verified consent & ownership verification</span>
-                </li>
-              </ul>
-              <div className="pillar-footer">
-                <Link href="/services" className="link-button">
-                  View Planned Services
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Pillar 2: Community & Resources */}
-            <div className="pillar-card community-pillar">
-              <div className="pillar-header">
-                <span className="pillar-icon" aria-hidden="true">
-                  <UsersIcon size={24} />
-                </span>
-                <span className="pillar-tag">Educational Domain</span>
-                <h3 className="pillar-title">Community & Resources</h3>
-              </div>
-              <p className="pillar-desc">
-                A student-led awareness ecosystem producing plain-language cyber safety guides,
-                educational articles, and security checklists for website owners.
-              </p>
-              <ul className="pillar-feature-list">
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Student-driven cybersecurity workshops and defense labs</span>
-                </li>
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Free cyber safety articles and web hardening checklists</span>
-                </li>
-                <li>
-                  <span className="feature-check" aria-hidden="true">
-                    <CheckIcon size={14} />
-                  </span>
-                  <span>Ethical vulnerability disclosure education</span>
-                </li>
-              </ul>
-              <div className="pillar-footer">
-                <Link href="/resources" className="link-button">
-                  Browse Knowledge Center
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -224,45 +198,17 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="values-grid">
-              <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">
-                  <LockIcon size={20} />
-                </span>
-                <div>
-                  <h4 className="value-item-title">Strict Confidentiality</h4>
-                  <p className="value-item-text">Findings and communications remain strictly private.</p>
+              {homeContent.coreStrengths.map((item) => (
+                <div key={item.id || item.title} className="value-item">
+                  <span className="value-item-icon" aria-hidden="true">
+                    {renderStrengthIcon(item.icon || 'shield')}
+                  </span>
+                  <div>
+                    <h4 className="value-item-title">{item.title}</h4>
+                    <p className="value-item-text">{item.description}</p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">
-                  <FileTextIcon size={20} />
-                </span>
-                <div>
-                  <h4 className="value-item-title">Zero Unsolicited Scans</h4>
-                  <p className="value-item-text">We never test external systems without pre-verified consent.</p>
-                </div>
-              </div>
-
-              <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">
-                  <GraduationCapIcon size={20} />
-                </span>
-                <div>
-                  <h4 className="value-item-title">Student Leadership</h4>
-                  <p className="value-item-text">Nurturing next-generation cybersecurity talent ethically.</p>
-                </div>
-              </div>
-
-              <div className="value-item">
-                <span className="value-item-icon" aria-hidden="true">
-                  <ShieldIcon size={20} />
-                </span>
-                <div>
-                  <h4 className="value-item-title">Defensive Focus</h4>
-                  <p className="value-item-text">All methodologies are aimed purely at protection and resilience.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

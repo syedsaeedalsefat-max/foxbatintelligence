@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useContent } from '../context/ContentContext';
 import {
   ShieldCheckIcon,
   CheckIcon,
@@ -20,33 +21,37 @@ interface ResourceItem {
 }
 
 export const ResourcesPage: React.FC = () => {
+  const { resourcesArticles, checklistItems: cmsChecklist } = useContent();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeArticle, setActiveArticle] = useState<ResourceItem | null>(null);
 
-  // Interactive Checklist State
-  const [checklistItems, setChecklistItems] = useState([
-    { id: 1, text: 'Enforce HTTPS with modern TLS 1.3 & HSTS header', checked: true },
-    { id: 2, text: 'Deploy strict Content-Security-Policy (CSP) to block XSS', checked: true },
-    { id: 3, text: 'Configure SPF, DKIM, and DMARC DNS records', checked: false },
-    { id: 4, text: 'Enable Multi-Factor Authentication (MFA) on all admin portals', checked: true },
-    { id: 5, text: 'Set up automated, encrypted off-site daily database backups', checked: false },
-    { id: 6, text: 'Automate dependency vulnerability scanning (npm audit / Snyk)', checked: false },
-    { id: 7, text: 'Implement API rate-limiting to mitigate brute-force and DDoS', checked: false },
-    { id: 8, text: 'Publish /.well-known/security.txt for responsible disclosure', checked: true },
-  ]);
-
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  // User interactive toggle overrides
+  const [userToggles, setUserToggles] = useState<Record<number, boolean>>({});
 
   const toggleChecklist = (id: number) => {
-    setChecklistItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item))
-    );
+    setUserToggles((prev) => {
+      const current =
+        prev[id] !== undefined
+          ? prev[id]
+          : cmsChecklist.find((i) => i.id === id)?.checked ?? false;
+      return { ...prev, [id]: !current };
+    });
   };
 
-  const checklistScore = Math.round(
-    (checklistItems.filter((i) => i.checked).length / checklistItems.length) * 100
-  );
+  const checklistItems = cmsChecklist.map((item) => ({
+    ...item,
+    checked: userToggles[item.id] !== undefined ? userToggles[item.id] : item.checked,
+  }));
+
+  const checklistScore =
+    checklistItems.length > 0
+      ? Math.round(
+          (checklistItems.filter((i) => i.checked).length / checklistItems.length) * 100
+        )
+      : 100;
+
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const handleCopy = (code: string, label: string) => {
     navigator.clipboard.writeText(code);
@@ -54,193 +59,13 @@ export const ResourcesPage: React.FC = () => {
     setTimeout(() => setCopiedKey(null), 2500);
   };
 
-  const resources: ResourceItem[] = [
-    {
-      id: 'res-1',
-      category: 'checklists',
-      categoryLabel: 'Checklists',
-      title: 'Website Owner Essential Security Hardening Checklist',
-      summary:
-        'A comprehensive practical checklist covering transport encryption (HTTPS), DNS record hardening, secure HTTP headers, automated backups, and credential management.',
-      readTime: '6 min read',
-      difficulty: 'Essential',
-      highlights: [
-        'Enforcing modern TLS 1.3 and HSTS policies',
-        'Configuring SPF, DKIM, and DMARC for email domain protection',
-        'Setting up automated, off-site database backups',
-      ],
-      fullContent: {
-        intro:
-          'Protecting web applications starts with solid security hygiene across hosting, domain infrastructure, and HTTP headers.',
-        sections: [
-          {
-            heading: '1. Transport Security & SSL/TLS Configuration',
-            body: 'Ensure your server redirects all plain HTTP traffic to HTTPS automatically. Use modern cipher suites and enforce HTTP Strict Transport Security (HSTS) with a minimum max-age of 31536000 seconds (1 year).',
-            code: 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload',
-          },
-          {
-            heading: '2. Domain & Email Authentication Hardening',
-            body: 'Prevent domain spoofing and phishing by establishing SPF records, signing outbound email with DKIM 2048-bit keys, and enforcing a strict DMARC quarantine or reject policy.',
-            code: 'v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc-reports@yourdomain.com',
-          },
-          {
-            heading: '3. Access Controls & Secret Management',
-            body: 'Enforce hardware security keys or authenticator apps for all administrator dashboards. Never store secrets, database passwords, or third-party API tokens directly in source repositories.',
-          },
-        ],
-      },
+  const resources: ResourceItem[] = resourcesArticles.map((art) => ({
+    ...art,
+    fullContent: art.fullContent || {
+      intro: art.intro,
+      sections: art.sections,
     },
-    {
-      id: 'res-2',
-      category: 'web-security',
-      categoryLabel: 'Web Security',
-      title: 'Demystifying the OWASP Top 10 for Developers',
-      summary:
-        'A clear, plain-English breakdown of the ten most prevalent web application vulnerabilities, including broken access control, cryptographic failures, and injection attacks.',
-      readTime: '10 min read',
-      difficulty: 'Intermediate',
-      highlights: [
-        'Understanding how Broken Access Control occurs in APIs',
-        'Protecting sensitive data at rest and in transit',
-        'Parameterizing queries to eliminate SQL and command injection',
-      ],
-      fullContent: {
-        intro:
-          'The Open Web Application Security Project (OWASP) Top 10 represents the consensus standard for the most critical web security vulnerabilities.',
-        sections: [
-          {
-            heading: 'A01: Broken Access Control',
-            body: 'Occurs when users can act outside of their intended permissions. Never rely solely on hidden client-side UI buttons; always verify user ownership on the server side before executing database mutations.',
-            code: '// Vulnerable: req.params.userId directly queried\n// Secure: Check session token subject against resource owner\nif (session.user.id !== resource.ownerId) throw new ForbiddenException();',
-          },
-          {
-            heading: 'A02: Cryptographic Failures',
-            body: 'Avoid obsolete hashing algorithms like MD5 or SHA1 for password storage. Use Argon2id or bcrypt with appropriate work factors, and encrypt sensitive data at rest with AES-256-GCM.',
-          },
-          {
-            heading: 'A03: Injection (SQLi & Command)',
-            body: 'Occurs when untrusted data is concatenated into database queries or shell execution strings. Always use parameterized queries or trusted Object Relational Mappers (ORMs).',
-            code: '// Secure Parameterized Query (Node.js pg / Prisma)\nconst user = await db.query("SELECT * FROM users WHERE email = $1", [userEmail]);',
-          },
-        ],
-      },
-    },
-    {
-      id: 'res-3',
-      category: 'dev-guides',
-      categoryLabel: 'Developer Guides',
-      title: 'Hardening HTTP Response Headers: CSP, CORS & Permissions',
-      summary:
-        'Technical implementation tutorial for adding robust security headers in Nginx, Cloudflare, Apache, and modern Node/React hosting environments.',
-      readTime: '8 min read',
-      difficulty: 'Intermediate',
-      highlights: [
-        'Writing Content Security Policy (CSP) rules that prevent XSS',
-        'Restricting cross-origin access using proper CORS headers',
-        'Disabling unused browser APIs with Permissions-Policy',
-      ],
-      fullContent: {
-        intro:
-          'Security headers tell the browser how to behave when handling your site content, restricting malicious script execution and framing.',
-        sections: [
-          {
-            heading: 'Recommended Nginx Security Header Block',
-            body: 'Add these directives to your server block in nginx.conf or reverse proxy configuration to provide baseline browser protections.',
-            code: `add_header X-Frame-Options "DENY" always;
-add_header X-Content-Type-Options "nosniff" always;
-add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';" always;
-add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;`,
-          },
-        ],
-      },
-    },
-    {
-      id: 'res-4',
-      category: 'hygiene',
-      categoryLabel: 'Cyber Hygiene',
-      title: 'Practical Password & Credential Hygiene for Teams',
-      summary:
-        'Actionable guidance for startup teams, students, and organizations on password managers, multi-factor authentication (MFA), and eliminating password re-use.',
-      readTime: '5 min read',
-      difficulty: 'Beginner',
-      highlights: [
-        'Why password complexity alone fails without MFA',
-        'Hardware security keys vs authenticator apps',
-        'Handling credential offboarding securely',
-      ],
-      fullContent: {
-        intro:
-          'Over 80% of data breaches involve compromised credentials. Effective hygiene protects developers and teams without excessive friction.',
-        sections: [
-          {
-            heading: '1. Eliminating Password Re-use',
-            body: 'Adopt an encrypted team password manager (such as Bitwarden or 1Password). Require unique, randomly generated 20+ character passwords for every single service.',
-          },
-          {
-            heading: '2. Phishing-Resistant MFA',
-            body: 'SMS verification is vulnerable to SIM-swapping. Transition all critical logins to FIDO2 / WebAuthn hardware keys (YubiKey) or TOTP authenticator applications.',
-          },
-        ],
-      },
-    },
-    {
-      id: 'res-5',
-      category: 'dev-guides',
-      categoryLabel: 'Developer Guides',
-      title: 'Preventing Accidental Secret Leaks in Git Repositories',
-      summary:
-        'Step-by-step practices for configuring .gitignore, using environment files safely, pre-commit secret scanning hooks, and rotating compromised API keys.',
-      readTime: '7 min read',
-      difficulty: 'Essential',
-      highlights: [
-        'Structuring .env and .env.example files properly',
-        'Configuring pre-commit secret linters',
-        'Emergency response steps if an API key is accidentally committed',
-      ],
-      fullContent: {
-        intro:
-          'Bots scrape public code repositories within seconds of commit. Preventing accidental leaks requires proactive local guardrails.',
-        sections: [
-          {
-            heading: 'Git Pre-Commit Hook Setup with Gitleaks',
-            body: 'Install automated git hooks that run locally before every git commit to detect API keys, tokens, and private certificates before they leave your machine.',
-            code: `# Install gitleaks and configure pre-commit hook
-gitleaks protect --staged --verbose`,
-          },
-        ],
-      },
-    },
-    {
-      id: 'res-6',
-      category: 'web-security',
-      categoryLabel: 'Web Security',
-      title: 'Ethical Vulnerability Disclosure: Guidelines for Researchers',
-      summary:
-        'A primer on responsible bug reporting, ethical guidelines, scoping verification, and collaborating constructively with website owners without disrupting services.',
-      readTime: '6 min read',
-      difficulty: 'Beginner',
-      highlights: [
-        'Understanding safe harbors and written authorizations',
-        'Structuring reproducible vulnerability reports',
-        'Maintaining confidentiality while fixes are deployed',
-      ],
-      fullContent: {
-        intro:
-          'Responsible disclosure bridges security researchers and infrastructure maintainers, ensuring flaws are patched before public exploitation.',
-        sections: [
-          {
-            heading: 'Sample security.txt Implementation',
-            body: 'Place a standardized security.txt file at /.well-known/security.txt on your web server so researchers know how to contact your team directly.',
-            code: `Contact: mailto:security@foxbatintelligence.com
-Expires: 2027-12-31T23:59:59.000Z
-Preferred-Languages: en, bn
-Policy: https://foxbatintelligence.com/terms`,
-          },
-        ],
-      },
-    },
-  ];
+  }));
 
   const categories = [
     { key: 'all', label: 'All Resources', count: resources.length },

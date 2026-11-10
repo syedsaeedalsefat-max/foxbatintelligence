@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useRouter, type RoutePath } from '../context/RouterContext';
 import { useAuth } from '../context/AuthContext';
+import { useContent } from '../context/ContentContext';
 import { LockIcon, LogOutIcon, ShieldCheckIcon } from './Icons';
 import foxbatLogo from '../../image_foxbat_logo.png';
 
 export const Navbar: React.FC = () => {
   const { path } = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
+  const { siteSettings } = useContent();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Close mobile menu on ESC
@@ -53,8 +55,8 @@ export const Navbar: React.FC = () => {
             />
           </div>
           <div className="navbar-brand-text">
-            <span className="navbar-brand-title">Foxbat Intelligence</span>
-            <span className="navbar-brand-subtitle">Cybersecurity & Awareness</span>
+            <span className="navbar-brand-title">{siteSettings.brandTitle}</span>
+            <span className="navbar-brand-subtitle">{siteSettings.brandSubtitle}</span>
           </div>
         </Link>
 
