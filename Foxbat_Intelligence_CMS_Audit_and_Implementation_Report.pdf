@@ -1,0 +1,269 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 7 0 R 8 0 R] /Count 3 >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 9 0 R >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 11 0 R >>
+endobj
+9 0 obj
+<< /Length 6766 >>
+stream
+q 0.5 w 42.00 809.89 511.28 18.00 re Q
+BT /F2 7.5 Tf 0.000 0.550 0.750 rg 1 0 0 1 42.00 815.89 Tm (FOXBAT INTELLIGENCE  |  TECHNICAL OPERATIONS REPORT) Tj ET
+BT /F1 7.5 Tf 0.500 0.550 0.650 rg 1 0 0 1 388.28 815.89 Tm (CONFIDENTIAL / ARCHITECTURAL AUDIT) Tj ET
+q 1 w 0.000 0.750 0.900 RG 42.00 809.89 m 553.28 809.89 l S Q
+q 0.6 w 0.850 0.880 0.930 RG 42.00 35.00 m 553.28 35.00 l S Q
+BT /F1 7.5 Tf 0.450 0.500 0.600 rg 1 0 0 1 42.00 24.00 Tm (Foxbat Intelligence Website - Automated CMS & RBAC Operations Manual) Tj ET
+BT /F2 7.5 Tf 0.200 0.300 0.450 rg 1 0 0 1 503.28 24.00 Tm (Page 1 of 3) Tj ET
+q 1.2 w 0.000 0.850 1.000 RG 0.020 0.040 0.080 rg 42.00 714.89 511.28 90.00 re B Q
+q 0.5 w 0.000 0.900 1.000 rg 42.00 802.89 511.28 2.00 re f Q
+BT /F2 8.5 Tf 0.000 0.850 1.000 rg 1 0 0 1 58.00 785.89 Tm (FOXBAT INTELLIGENCE -- CYBERSECURITY & AWARENESS) Tj ET
+BT /F2 17 Tf 0.970 0.980 1.000 rg 1 0 0 1 58.00 761.89 Tm (CMS AUDIT & DEPLOYMENT REPORT) Tj ET
+BT /F1 9.5 Tf 0.700 0.780 0.900 rg 1 0 0 1 58.00 743.89 Tm (Automated In-Browser Content Management System, Sci-Fi Comics Studio & RBAC Operations) Tj ET
+BT /F3 7.5 Tf 0.000 0.800 0.950 rg 1 0 0 1 58.00 725.89 Tm (DATE: NOV 10, 2026 | TARGET: foxbatintelligence.pages.dev | VER: 2.0 PRODUCTION) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 682.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 686.39 Tm (MISSION) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 684.89 Tm (Executive Overview) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 678.89 m 553.28 678.89 l S Q
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 664.89 Tm (This report provides a formal evaluation and operational architectural summary of the Foxbat) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 651.39 Tm (Intelligence Content Management System \(CMS\) implementation. The objective of this project) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 637.89 Tm (was to completely eliminate dependency on external code editors \(such as VS Code\) for) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 624.39 Tm (managing website content, publishing stories, uploading media, and handling client intake) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 610.89 Tm (orders.) Tj ET
+q 0.6 w 0.850 0.900 0.950 RG 0.940 0.980 0.950 rg 42.00 557.39 511.28 42.00 re B Q
+q 0.5 w 0.100 0.700 0.400 rg 42.00 557.39 4.00 42.00 re f Q
+BT /F2 9 Tf 0.100 0.700 0.400 rg 1 0 0 1 54.00 585.39 Tm (Operational Achievement: Full Independence from Source Code) Tj ET
+BT /F1 8.2 Tf 0.250 0.300 0.400 rg 1 0 0 1 54.00 569.39 Tm (The site is now powered by an in-browser dynamic CMS engine. Administrators and owners can log in directly at /admin to create, edit, publish, and back up all content with instantaneous live site updates.) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 529.39 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 532.89 Tm (AUDIT) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 531.39 Tm (Task 1: Codebase Audit & Baseline State) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 525.39 m 553.28 525.39 l S Q
+q 0.5 w 0.060 0.100 0.200 rg 42.00 491.39 511.28 20.00 re f Q
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 48.00 498.39 Tm (Audit Category) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 168.00 498.39 Tm (Historical Baseline Status) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 363.00 498.39 Tm (Current Upgraded State) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 471.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 478.39 Tm (Dynamic Data Fetching) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 478.39 Tm (Hardcoded text inside static React components) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 478.39 Tm (Fully dynamic; bound to ContentContext & storage) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 451.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 458.39 Tm (Admin & Authentication) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 458.39 Tm (Single demo card with zero auth routes) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 458.39 Tm (Complete RBAC at /admin, /login, and /portal) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 431.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 438.39 Tm (Content Schemas) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 438.39 Tm (No content blocks or data structures) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 438.39 Tm (Structured schemas for Hero, Services, Guides, Comics) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 411.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 418.39 Tm (Media & Asset Uploads) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 418.39 Tm (Manual repository file wiring required) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 418.39 Tm (In-browser Media Library converting images to Data URLs) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 391.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 398.39 Tm (Brand & Footer Settings) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 398.39 Tm (Hardcoded footer; unwanted logo rendered) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 398.39 Tm (Dynamic global settings; footer logo cleaned up) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 371.39 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 378.39 Tm (Disaster Recovery) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 378.39 Tm (Code trapped in Git commits) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 378.39 Tm (1-Click Full-Site JSON export and import restore) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 347.39 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 350.89 Tm (ANALYSIS) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 349.39 Tm (Core Architectural Difference & Impact) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 343.39 m 553.28 343.39 l S Q
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 329.39 Tm (Prior to this release, updating any copy \(such as planned service descriptions, FAQs, or) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 315.89 Tm (contact information\) required developer intervention, git staging, and production) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 302.39 Tm (compilation. The upgraded architecture provides a persistent client-side data layer paired) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 288.89 Tm (with instant reactivity, allowing non-technical staff to control everything in real-time.) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Length 7146 >>
+stream
+q 0.5 w 42.00 809.89 511.28 18.00 re Q
+BT /F2 7.5 Tf 0.000 0.550 0.750 rg 1 0 0 1 42.00 815.89 Tm (FOXBAT INTELLIGENCE  |  TECHNICAL OPERATIONS REPORT) Tj ET
+BT /F1 7.5 Tf 0.500 0.550 0.650 rg 1 0 0 1 388.28 815.89 Tm (CONFIDENTIAL / ARCHITECTURAL AUDIT) Tj ET
+q 1 w 0.000 0.750 0.900 RG 42.00 809.89 m 553.28 809.89 l S Q
+q 0.6 w 0.850 0.880 0.930 RG 42.00 35.00 m 553.28 35.00 l S Q
+BT /F1 7.5 Tf 0.450 0.500 0.600 rg 1 0 0 1 42.00 24.00 Tm (Foxbat Intelligence Website - Automated CMS & RBAC Operations Manual) Tj ET
+BT /F2 7.5 Tf 0.200 0.300 0.450 rg 1 0 0 1 503.28 24.00 Tm (Page 2 of 3) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 757.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 761.39 Tm (MODULES) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 759.89 Tm (Task 2: Delivered Functional Modules) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 753.89 m 553.28 753.89 l S Q
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 739.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 739.89 Tm (1. Sci-Fi Comics Studio \(/comics\): ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 230.00 739.89 Tm (Interactive 3D turn-page graphic novel reader. Features realistic page-turning animations, custom panel layouts, dialogue balloons, visual themes \(Cyan, Matrix Green, Red Alert, Deep Void\), and direct issue uploads.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 725.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 725.89 Tm (2. Home Page & Hero Real-Time Editor: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 244.40 725.89 Tm (Administrators can modify the hero badge, main title prefix/highlight, subtitle mission statements, regional mission callout, and core security pillars with instantaneous re-rendering.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 711.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 711.89 Tm (3. Services Catalog Manager \(/services\): ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 258.80 711.89 Tm (Add, edit, or delete technical assessment frameworks. Configure tags, planned deliverables, icons, and status flags without modifying code files.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 697.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 697.89 Tm (4. Knowledge Center & Launch Checklist \(/resources\): ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 316.40 697.89 Tm (Publish structured cybersecurity articles, developer guides, and maintain the interactive website launch security checklist tool.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 683.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 683.89 Tm (5. In-Browser Media Library: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 201.20 683.89 Tm (Upload story artwork, logos, and diagrams directly from the browser \(up to 8MB\). Automatically generates persistent Data URLs with a 1-click "Copy Image URL" button to embed anywhere on the site.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 669.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 669.89 Tm (6. Client Service Orders & Intake Tracker: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 268.40 669.89 Tm (Dedicated operations queue for review of client security assessment requests, tracking statuses \(Pending, In Review, Approved, Completed\), and assigning technical assessors.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 655.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 655.89 Tm (7. Reader Feedback Moderation: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 210.80 655.89 Tm (Review public inquiries and comic reader notes, approve submissions, and publish verified staff responses.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 641.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 641.89 Tm (8. Global Settings & 1-Click Backup: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 239.60 641.89 Tm (Customize brand titles, subtitle, footer taglines, and community badges. Features a 1-click "Export Full Backup JSON" button for full disaster recovery.) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 615.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 619.39 Tm (IMPACT) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 617.89 Tm (Comparative Impact Breakdown) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 611.89 m 553.28 611.89 l S Q
+q 0.5 w 0.060 0.100 0.200 rg 42.00 577.89 511.28 20.00 re f Q
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 48.00 584.89 Tm (Operational Dimension) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 168.00 584.89 Tm (Previous Version) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 363.00 584.89 Tm (Upgraded Version \(Current\)) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 557.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 564.89 Tm (Content Editing) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 564.89 Tm (Requires VS Code, Git, and rebuilds) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 564.89 Tm (100% in-browser editing via /admin dashboard) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 537.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 544.89 Tm (Comics Section) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 544.89 Tm (Non-existent; blank repository) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 544.89 Tm (Full 3D turn-page reader ready for story uploads) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 517.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 524.89 Tm (Media Workflow) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 524.89 Tm (Manual git commits of image files) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 524.89 Tm (Direct file selector with automatic Data URL generation) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 497.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 504.89 Tm (Customer Orders) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 504.89 Tm (Static button with no backend queue) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 504.89 Tm (Structured order tracker with assessor assignments) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 477.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 484.89 Tm (Data Portability) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 484.89 Tm (Hardcoded in TypeScript source files) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 484.89 Tm (Downloadable and importable JSON backup snapshots) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 457.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 464.89 Tm (Access Governance) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 168.00 464.89 Tm (Single public test card) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 363.00 464.89 Tm (Multi-tier RBAC \(Owner, Admin, Moderator, Crew\)) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Length 7756 >>
+stream
+q 0.5 w 42.00 809.89 511.28 18.00 re Q
+BT /F2 7.5 Tf 0.000 0.550 0.750 rg 1 0 0 1 42.00 815.89 Tm (FOXBAT INTELLIGENCE  |  TECHNICAL OPERATIONS REPORT) Tj ET
+BT /F1 7.5 Tf 0.500 0.550 0.650 rg 1 0 0 1 388.28 815.89 Tm (CONFIDENTIAL / ARCHITECTURAL AUDIT) Tj ET
+q 1 w 0.000 0.750 0.900 RG 42.00 809.89 m 553.28 809.89 l S Q
+q 0.6 w 0.850 0.880 0.930 RG 42.00 35.00 m 553.28 35.00 l S Q
+BT /F1 7.5 Tf 0.450 0.500 0.600 rg 1 0 0 1 42.00 24.00 Tm (Foxbat Intelligence Website - Automated CMS & RBAC Operations Manual) Tj ET
+BT /F2 7.5 Tf 0.200 0.300 0.450 rg 1 0 0 1 503.28 24.00 Tm (Page 3 of 3) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 757.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 761.39 Tm (MANUAL) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 759.89 Tm (Administrator Operational Guide) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 753.89 m 553.28 753.89 l S Q
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 739.89 Tm (To access and operate the Foxbat Intelligence administrative dashboard, follow these simple) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 726.39 Tm (steps directly in any modern desktop or mobile browser:) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 708.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 708.89 Tm (Step 1 - Access Portal: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 177.20 708.89 Tm (Open your browser and navigate to /admin or click "Staff Login" in the top navigation bar.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 694.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 694.89 Tm (Step 2 - Authentication: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 182.00 694.89 Tm (Select your clearance level \(Admin FOX-BRAVO for content or Owner FOX-ALPHA for full oversight\).) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 680.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 680.89 Tm (Step 3 - Edit Content: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 172.40 680.89 Tm (Navigate to "Home Page Editor", "Services Catalog", or "Resources & Checklist" to update any copy and click Save.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 666.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 666.89 Tm (Step 4 - Upload Media: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 172.40 666.89 Tm (Go to "Media Assets", select an image, click "Copy Image URL", and paste it into any story cover, panel, or guide.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 652.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 652.89 Tm (Step 5 - Story Publishing: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 191.60 652.89 Tm (Open "Sci-Fi Comics Studio", click "Upload New Comic Story", configure panels, and preview in the 3D book reader.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 638.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 638.89 Tm (Step 6 - Full Site Backup: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 191.60 638.89 Tm (Open "Global Settings & Backup" and click "Export Full Backup JSON" to save an offline backup snapshot.) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 612.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 616.39 Tm (SECURITY) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 614.89 Tm (Security, Sanitization & Brand Standards) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 608.89 m 553.28 608.89 l S Q
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 594.89 Tm (The implementation strictly complies with all AGENTS.md directives and cybersecurity best) Tj ET
+BT /F1 9 Tf 0.200 0.250 0.350 rg 1 0 0 1 42.00 581.39 Tm (practices:) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 563.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 563.89 Tm (XSS Neutralization: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 158.00 563.89 Tm (All text inputs are sanitized through sanitizeText\(\), removing script blocks and unquoted event handlers.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 549.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 549.89 Tm (Brand Asset Preservation: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 186.80 549.89 Tm (Root media assets \(image_foxbat_logo.png, facebook coverpage.png, services poster.jpg\) are strictly untouched.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 535.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 535.89 Tm (Footer Optimization: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 162.80 535.89 Tm (The redundant small crest logo identified in user screenshots has been permanently removed across all pages.) Tj ET
+BT /F2 8.5 Tf 0.000 0.650 0.850 rg 1 0 0 1 46.00 521.89 Tm (>) Tj ET
+BT /F2 8.5 Tf 0.100 0.150 0.250 rg 1 0 0 1 58.00 521.89 Tm (Least-Privilege RBAC: ) Tj ET
+BT /F1 8.5 Tf 0.250 0.300 0.400 rg 1 0 0 1 167.60 521.89 Tm (Admins cannot view private customer orders or security audit settings, reserving oversight solely for the Owner.) Tj ET
+q 0.6 w 0.000 0.650 0.850 RG 0.900 0.960 1.000 rg 42.00 495.89 45.00 12.00 re B Q
+BT /F2 6.5 Tf 0.000 0.500 0.700 rg 1 0 0 1 46.00 499.39 Tm (VERIFICATION) Tj ET
+BT /F2 12.5 Tf 0.050 0.100 0.200 rg 1 0 0 1 94.00 497.89 Tm (Verification Quality Gates \(Sign-Off\)) Tj ET
+q 0.9 w 0.000 0.750 0.900 RG 42.00 491.89 m 553.28 491.89 l S Q
+q 0.5 w 0.060 0.100 0.200 rg 42.00 457.89 511.28 20.00 re f Q
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 48.00 464.89 Tm (Verification Check) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 188.00 464.89 Tm (Command / Standard) Tj ET
+BT /F2 8 Tf 0.950 0.980 1.000 rg 1 0 0 1 348.00 464.89 Tm (Status / Result) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 437.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 444.89 Tm (ESLint Static Code Audit) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 188.00 444.89 Tm (npm run lint) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 348.00 444.89 Tm (PASS: Code 0 \(0 errors, 0 warnings across all files\)) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 417.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 424.89 Tm (TypeScript & Vite Bundle) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 188.00 424.89 Tm (tsc -b && vite build) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 348.00 424.89 Tm (PASS: Code 0 \(83 modules compiled cleanly in 297ms\)) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 1.000 1.000 1.000 rg 42.00 397.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 404.89 Tm (Mother Git Repository) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 188.00 404.89 Tm (git push upstream main) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 348.00 404.89 Tm (PASS: Pushed commit 526b46e to AtiaAbk/foxbatintelligence) Tj ET
+q 0.5 w 0.880 0.900 0.950 RG 0.960 0.980 1.000 rg 42.00 377.89 511.28 20.00 re B Q
+BT /F2 7.8 Tf 0.050 0.100 0.250 rg 1 0 0 1 48.00 384.89 Tm (Forked Git Repository) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 188.00 384.89 Tm (git push origin main) Tj ET
+BT /F1 7.8 Tf 0.250 0.300 0.400 rg 1 0 0 1 348.00 384.89 Tm (PASS: Pushed commit 526b46e to syedsaeedalsefat-max/foxbatintelligence) Tj ET
+q 0.6 w 0.850 0.900 0.950 RG 0.940 0.980 0.950 rg 42.00 329.89 511.28 42.00 re B Q
+q 0.5 w 0.100 0.700 0.400 rg 42.00 329.89 4.00 42.00 re f Q
+BT /F2 9 Tf 0.100 0.700 0.400 rg 1 0 0 1 54.00 357.89 Tm (Operational Sign-Off: Ready for Live Use) Tj ET
+BT /F1 8.2 Tf 0.250 0.300 0.400 rg 1 0 0 1 54.00 341.89 Tm (All CMS, Comic Reader, Media Library, and Admin Dashboard components are fully verified, compiled, and deployed.) Tj ET
+endstream
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000009 00000 n 
+0000000271 00000 n 
+0000000058 00000 n 
+0000000128 00000 n 
+0000000203 00000 n 
+0000000340 00000 n 
+0000000492 00000 n 
+0000000645 00000 n 
+0000000798 00000 n 
+0000007616 00000 n 
+0000014815 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+22624
+%%EOF

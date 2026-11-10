@@ -13,7 +13,7 @@ import {
 } from '../components/Icons';
 
 export const ComicsPage: React.FC = () => {
-  const { comics, announcement } = useContent();
+  const { comics } = useContent();
   const { user, isAuthenticated } = useAuth();
   const { navigate } = useRouter();
 
@@ -38,21 +38,6 @@ export const ComicsPage: React.FC = () => {
 
   return (
     <div className="page-wrapper comics-page-wrapper">
-      {/* Featured Banner */}
-      {announcement.isActive && (
-        <section className="comics-announcement-strip">
-          <div className="section-container">
-            <div className="announcement-content-wrap">
-              <span className="badge-cyan">{announcement.badgeText}</span>
-              <div className="announcement-texts">
-                <strong>{announcement.headline}</strong>
-                <span>{announcement.message}</span>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Hero Section */}
       <section className="comics-hero-section">
         <div className="section-container">

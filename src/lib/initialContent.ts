@@ -555,9 +555,8 @@ export interface SiteAnnouncement {
 
 export const INITIAL_ANNOUNCEMENT: SiteAnnouncement = {
   id: 'ann-001',
-  headline: 'Universal In-Browser CMS & Admin Dashboard Active',
-  message:
-    'Full site management is operational. Administrators can edit pages, manage services, upload media, and moderate inquiries without modifying code.',
-  isActive: true,
-  badgeText: 'CMS ACTIVE',
+  headline: '',
+  message: '',
+  isActive: false,
+  badgeText: '',
 };
