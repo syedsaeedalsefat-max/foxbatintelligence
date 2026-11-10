@@ -60,7 +60,7 @@ interface ContentContextType {
 }
 
 const STORAGE_KEYS = {
-  COMICS: 'foxbat_cms_comics',
+  COMICS: 'foxbat_cms_comics_v2',
   ORDERS: 'foxbat_cms_orders',
   COMMENTS: 'foxbat_cms_comments',
   ANNOUNCEMENT: 'foxbat_cms_announcement',
@@ -71,6 +71,10 @@ const ContentContext = createContext<ContentContextType | null>(null);
 function loadFromStorage<T>(key: string, fallback: T): T {
   if (typeof window === 'undefined') return fallback;
   try {
+    // Clean out legacy mock comics if present
+    if (localStorage.getItem('foxbat_cms_comics')) {
+      localStorage.removeItem('foxbat_cms_comics');
+    }
     const raw = localStorage.getItem(key);
     if (raw) return JSON.parse(raw) as T;
   } catch (e) {

@@ -5131,4 +5131,174 @@
   }
 }
 
+/* ==========================================================================
+   Blank State & Custom Image Uploader Styles
+   ========================================================================== */
+
+/* Public Empty State Card */
+.comics-empty-state-card {
+  max-width: 640px;
+  margin: 40px auto;
+  background: rgba(10, 16, 36, 0.95);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 14px;
+  padding: 48px 32px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.empty-icon-wrap {
+  margin-bottom: 18px;
+}
+
+.empty-title {
+  font-size: 1.6rem;
+  color: #ffffff;
+  font-weight: 800;
+  margin: 14px 0 10px;
+}
+
+.empty-desc {
+  font-size: 0.92rem;
+  color: var(--color-text-slate);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.empty-cta-box {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Admin Empty State inside Portal */
+.admin-empty-table-state {
+  text-align: center;
+  padding: 48px 24px;
+  background: rgba(4, 8, 20, 0.7);
+  border: 1px dashed rgba(0, 229, 255, 0.3);
+  border-radius: 10px;
+  margin: 16px 0;
+}
+
+.admin-empty-table-state h4 {
+  margin: 12px 0 6px;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.admin-empty-table-state p {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* File Input & Uploaded Image Previews */
+.form-file-input {
+  background: rgba(4, 6, 20, 0.8);
+  border: 1px dashed rgba(0, 229, 255, 0.35);
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: var(--color-text-slate);
+  font-size: 0.82rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.uploaded-preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.uploaded-thumb-preview {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--color-cyan);
+}
+
+.table-comic-thumb {
+  width: 36px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--color-cyan);
+  flex-shrink: 0;
+}
+
+.page-summary-thumb {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Card Cover Image */
+.comic-custom-cover-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.comic-custom-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6) contrast(1.1);
+  transition: transform var(--transition-fast);
+}
+
+.comic-cover-preview:hover .comic-custom-cover-img {
+  transform: scale(1.05);
+  filter: brightness(0.75);
+}
+
+/* Reader Cover Custom Artwork */
+.cover-custom-image-box {
+  width: 100%;
+  height: 160px;
+  margin: 14px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--color-cyan);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.cover-img-rendered {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Reader Story Page Custom Artwork */
+.story-page-custom-img-wrap {
+  width: 100%;
+  max-height: 240px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.story-page-custom-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
 

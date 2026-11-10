@@ -3,8 +3,10 @@ import { useRouter } from '../context/RouterContext';
 import { useAuth, type StaffRole } from '../context/AuthContext';
 import {
   useContent,
+  type ComicStory,
   type OrderStatus,
 } from '../context/ContentContext';
+import { ComicBookReader } from '../components/ComicBookReader';
 import {
   ShieldCheckIcon,
   UsersIcon,
@@ -43,12 +45,13 @@ export const PortalPage: React.FC = () => {
   // Comic CMS state
   const [showNewComicModal, setShowNewComicModal] = useState(false);
   const [newComicTitle, setNewComicTitle] = useState('');
-  const [newComicIssue, setNewComicIssue] = useState('#04 — New Dawn');
+  const [newComicIssue, setNewComicIssue] = useState('#01 — Genesis');
   const [newComicGenre, setNewComicGenre] = useState('Cyberpunk');
   const [newComicAuthor, setNewComicAuthor] = useState('Foxbat Studio');
   const [newComicSynopsis, setNewComicSynopsis] = useState('');
   const [newComicAccent, setNewComicAccent] = useState('#00e5ff');
   const [newComicBadge, setNewComicBadge] = useState('NEW RELEASE');
+  const [newComicCoverImage, setNewComicCoverImage] = useState<string>('');
 
   // Page Editor State
   const [editingComicId, setEditingComicId] = useState<string | null>(null);
@@ -58,6 +61,13 @@ export const PortalPage: React.FC = () => {
   const [newPageSpeaker, setNewPageSpeaker] = useState('');
   const [newPageDialogue, setNewPageDialogue] = useState('');
   const [newPageTheme, setNewPageTheme] = useState('panel-theme-matrix');
+  const [newPageImage, setNewPageImage] = useState<string>('');
+
+  // Edit Existing Comic Metadata Modal State
+  const [editingComicMeta, setEditingComicMeta] = useState<ComicStory | null>(null);
+
+  // Live Book Reader Preview State
+  const [previewingComic, setPreviewingComic] = useState<ComicStory | null>(null);
 
   // Orders filter & note state
   const [orderFilter, setOrderFilter] = useState<string>('all');
@@ -74,6 +84,55 @@ export const PortalPage: React.FC = () => {
   const [annMessage, setAnnMessage] = useState(announcement.message);
   const [annBadge, setAnnBadge] = useState(announcement.badgeText);
   const [annSaved, setAnnSaved] = useState(false);
+
+  // File upload helpers
+  const handleCoverFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB. Please choose a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setNewComicCoverImage(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleEditCoverFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && editingComicMeta) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB. Please choose a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setEditingComicMeta({
+          ...editingComicMeta,
+          coverImage: event.target?.result as string,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePageImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds 5MB. Please choose a smaller image.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setNewPageImage(event.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // If unauthenticated, render Access Denied guard
   if (!isAuthenticated || !user) {
@@ -129,6 +188,7 @@ export const PortalPage: React.FC = () => {
       author: newComicAuthor.trim(),
       synopsis: newComicSynopsis.trim() || 'A new futuristic cyberspace adventure.',
       coverAccent: newComicAccent,
+      coverImage: newComicCoverImage || undefined,
       badge: newComicBadge.trim(),
       releaseDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
       isPublished: true,
@@ -152,7 +212,26 @@ export const PortalPage: React.FC = () => {
 
     setNewComicTitle('');
     setNewComicSynopsis('');
+    setNewComicCoverImage('');
     setShowNewComicModal(false);
+  };
+
+  const handleSaveEditedComicMeta = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingComicMeta) return;
+
+    updateComic(editingComicMeta.id, {
+      title: editingComicMeta.title,
+      issueNumber: editingComicMeta.issueNumber,
+      genre: editingComicMeta.genre,
+      author: editingComicMeta.author,
+      synopsis: editingComicMeta.synopsis,
+      coverAccent: editingComicMeta.coverAccent,
+      coverImage: editingComicMeta.coverImage,
+      badge: editingComicMeta.badge,
+    });
+
+    setEditingComicMeta(null);
   };
 
   const handleAddPageToCurrentComic = (e: React.FormEvent) => {
@@ -162,9 +241,10 @@ export const PortalPage: React.FC = () => {
     addPageToComic(editingComicId, {
       chapterTitle: newPageChapter.trim() || `Act ${Date.now().toString(36)}`,
       narrativeText: newPageNarrative.trim(),
+      imageUrl: newPageImage || undefined,
       panels: [
         {
-          caption: newPageCaption.trim() || 'Tactical Cyber Operations Console',
+          caption: newPageCaption.trim() || 'Scene Operations Console',
           speaker: newPageSpeaker.trim() || undefined,
           dialogue: newPageDialogue.trim() || undefined,
           visualTheme: newPageTheme,
@@ -178,6 +258,7 @@ export const PortalPage: React.FC = () => {
     setNewPageCaption('');
     setNewPageSpeaker('');
     setNewPageDialogue('');
+    setNewPageImage('');
   };
 
   const handleSaveAnnouncement = (e: React.FormEvent) => {
@@ -376,11 +457,7 @@ export const PortalPage: React.FC = () => {
                 <div className="operational-boundary-notice">
                   <CheckCircleIcon size={18} className="text-cyan" />
                   <span>
-                    <strong>CMS Auto-Persistence Enabled:</strong> All additions, edits to comics, orders, comments, and announcements are stored in the client state engine and immediately reflect on public pages (such as{' '}
-                    <a href="/comics" className="text-cyan font-bold underline">
-                      /comics
-                    </a>
-                    ) without touching code files!
+                    <strong>Admin Direct Management Mode Active:</strong> You can upload stories, add pages, update cover artwork, manage client orders, and publish reader comments directly from this browser terminal. All changes persist automatically in your browser and instantly update the public site!
                   </span>
                 </div>
               </div>
@@ -395,7 +472,7 @@ export const PortalPage: React.FC = () => {
                   <div>
                     <h3 className="section-subtitle">Sci-Fi Comic Production Studio</h3>
                     <p className="card-desc">
-                      Upload new comics, modify synopsis, create/edit pages, and manage publication state.
+                      Upload new comics, modify synopsis, create/edit pages, upload page artwork, and preview in the interactive 3D book reader.
                     </p>
                   </div>
                   <button
@@ -407,80 +484,120 @@ export const PortalPage: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Comic Stories Table */}
-                <div className="mock-table-wrapper">
-                  <table className="portal-table">
-                    <thead>
-                      <tr>
-                        <th>Cover / Title</th>
-                        <th>Issue</th>
-                        <th>Genre</th>
-                        <th>Pages</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {comics.map((comic) => (
-                        <tr key={comic.id}>
-                          <td>
-                            <div className="table-comic-cell">
-                              <span
-                                className="comic-dot-color"
-                                style={{ background: comic.coverAccent }}
-                              />
-                              <div>
-                                <strong>{comic.title}</strong>
-                                <span className="cell-subtext">{comic.author}</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>{comic.issueNumber}</td>
-                          <td>
-                            <span className="badge-pill pill-cyan">{comic.genre}</span>
-                          </td>
-                          <td>{comic.pages.length} Pages</td>
-                          <td>
-                            <button
-                              type="button"
-                              className={`status-toggle-btn ${comic.isPublished ? 'published' : 'draft'}`}
-                              onClick={() =>
-                                updateComic(comic.id, { isPublished: !comic.isPublished })
-                              }
-                              title="Click to toggle publication"
-                            >
-                              {comic.isPublished ? '● Published' : '○ Draft'}
-                            </button>
-                          </td>
-                          <td>
-                            <div className="table-inline-btns">
-                              <button
-                                type="button"
-                                className="btn-table-action"
-                                onClick={() =>
-                                  setEditingComicId(editingComicId === comic.id ? null : comic.id)
-                                }
-                              >
-                                {editingComicId === comic.id ? 'Close Pages' : 'Manage Pages'}
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-table-reject"
-                                onClick={() => {
-                                  if (confirm(`Delete "${comic.title}"?`)) {
-                                    deleteComic(comic.id);
-                                  }
-                                }}
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </td>
+                {/* Comic Stories Table or Empty State */}
+                {comics.length === 0 ? (
+                  <div className="admin-empty-table-state">
+                    <CheckCircleIcon size={36} className="text-cyan" />
+                    <h4>No Comics Uploaded Yet</h4>
+                    <p>
+                      The comic story archives are completely clear. Click below to directly upload your first graphic story!
+                    </p>
+                    <button
+                      type="button"
+                      className="btn-primary btn-sm mt-3"
+                      onClick={() => setShowNewComicModal(true)}
+                    >
+                      + Upload First Comic Story
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mock-table-wrapper">
+                    <table className="portal-table">
+                      <thead>
+                        <tr>
+                          <th>Cover / Title</th>
+                          <th>Issue</th>
+                          <th>Genre</th>
+                          <th>Pages</th>
+                          <th>Status</th>
+                          <th>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {comics.map((comic) => (
+                          <tr key={comic.id}>
+                            <td>
+                              <div className="table-comic-cell">
+                                {comic.coverImage ? (
+                                  <img
+                                    src={comic.coverImage}
+                                    alt={comic.title}
+                                    className="table-comic-thumb"
+                                  />
+                                ) : (
+                                  <span
+                                    className="comic-dot-color"
+                                    style={{ background: comic.coverAccent }}
+                                  />
+                                )}
+                                <div>
+                                  <strong>{comic.title}</strong>
+                                  <span className="cell-subtext">{comic.author}</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>{comic.issueNumber}</td>
+                            <td>
+                              <span className="badge-pill pill-cyan">{comic.genre}</span>
+                            </td>
+                            <td>{comic.pages.length} Pages</td>
+                            <td>
+                              <button
+                                type="button"
+                                className={`status-toggle-btn ${comic.isPublished ? 'published' : 'draft'}`}
+                                onClick={() =>
+                                  updateComic(comic.id, { isPublished: !comic.isPublished })
+                                }
+                                title="Click to toggle publication"
+                              >
+                                {comic.isPublished ? '● Published' : '○ Draft'}
+                              </button>
+                            </td>
+                            <td>
+                              <div className="table-inline-btns">
+                                <button
+                                  type="button"
+                                  className="btn-table-action"
+                                  onClick={() => setPreviewingComic(comic)}
+                                  title="Test in the 3D book reader"
+                                >
+                                  Preview Book 📖
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-table-action"
+                                  onClick={() =>
+                                    setEditingComicId(editingComicId === comic.id ? null : comic.id)
+                                  }
+                                >
+                                  {editingComicId === comic.id ? 'Close Pages' : 'Manage Pages'}
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-table-action"
+                                  onClick={() => setEditingComicMeta(comic)}
+                                >
+                                  Edit Info
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-table-reject"
+                                  onClick={() => {
+                                    if (confirm(`Delete "${comic.title}"?`)) {
+                                      deleteComic(comic.id);
+                                    }
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
 
                 {/* Sub-Editor: Add/Delete pages for the selected comic */}
                 {editingComicId && selectedComicForEditing && (
@@ -489,9 +606,18 @@ export const PortalPage: React.FC = () => {
                       <h4>
                         Page Editor: <em>{selectedComicForEditing.title}</em>
                       </h4>
-                      <span className="badge-pill pill-cyan">
-                        {selectedComicForEditing.pages.length} Pages Configured
-                      </span>
+                      <div className="panel-actions-top">
+                        <button
+                          type="button"
+                          className="btn-primary btn-sm"
+                          onClick={() => setPreviewingComic(selectedComicForEditing)}
+                        >
+                          Preview Book 📖
+                        </button>
+                        <span className="badge-pill pill-cyan">
+                          {selectedComicForEditing.pages.length} Pages Configured
+                        </span>
+                      </div>
                     </div>
 
                     {/* Existing Pages List */}
@@ -511,6 +637,13 @@ export const PortalPage: React.FC = () => {
                               ✕
                             </button>
                           </div>
+                          {p.imageUrl && (
+                            <img
+                              src={p.imageUrl}
+                              alt={`Page ${p.pageNumber}`}
+                              className="page-summary-thumb"
+                            />
+                          )}
                           <span className="page-summary-chapter">{p.chapterTitle}</span>
                           <p className="page-summary-narrative">{p.narrativeText}</p>
                           <span className="page-summary-panels">
@@ -551,6 +684,35 @@ export const PortalPage: React.FC = () => {
                             <option value="panel-theme-dark">Deep Space / Dark</option>
                           </select>
                         </div>
+                      </div>
+
+                      {/* File upload for page illustration / comic scan */}
+                      <div className="form-group-compact my-2">
+                        <label className="form-label">
+                          Upload Full Comic Page Image / Illustration (Optional):
+                        </label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="form-file-input"
+                          onChange={handlePageImageUpload}
+                        />
+                        {newPageImage && (
+                          <div className="uploaded-preview-wrap">
+                            <img
+                              src={newPageImage}
+                              alt="Page preview"
+                              className="uploaded-thumb-preview"
+                            />
+                            <button
+                              type="button"
+                              className="btn-secondary btn-sm"
+                              onClick={() => setNewPageImage('')}
+                            >
+                              Remove Image
+                            </button>
+                          </div>
+                        )}
                       </div>
 
                       <div className="form-group-compact">
@@ -598,7 +760,7 @@ export const PortalPage: React.FC = () => {
                         </div>
                       </div>
 
-                      <button type="submit" className="btn-primary btn-sm mt-2">
+                      <button type="submit" className="btn-primary btn-sm mt-3">
                         + Add Page to Story
                       </button>
                     </form>
@@ -628,7 +790,7 @@ export const PortalPage: React.FC = () => {
                           <input
                             type="text"
                             className="form-input"
-                            placeholder="e.g. Protocol 0x88: Neon Firewall"
+                            placeholder="e.g. Operation Foxbat: Genesis"
                             value={newComicTitle}
                             onChange={(e) => setNewComicTitle(e.target.value)}
                             required
@@ -639,12 +801,41 @@ export const PortalPage: React.FC = () => {
                           <input
                             type="text"
                             className="form-input"
-                            placeholder="e.g. #04 — Neon Firewall"
+                            placeholder="e.g. #01 — Genesis"
                             value={newComicIssue}
                             onChange={(e) => setNewComicIssue(e.target.value)}
                             required
                           />
                         </div>
+                      </div>
+
+                      {/* Cover Image Upload File Input */}
+                      <div className="form-group">
+                        <label className="form-label">
+                          Upload Custom Cover Artwork Image (Optional):
+                        </label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="form-file-input"
+                          onChange={handleCoverFileUpload}
+                        />
+                        {newComicCoverImage && (
+                          <div className="uploaded-preview-wrap">
+                            <img
+                              src={newComicCoverImage}
+                              alt="Cover preview"
+                              className="uploaded-thumb-preview"
+                            />
+                            <button
+                              type="button"
+                              className="btn-secondary btn-sm"
+                              onClick={() => setNewComicCoverImage('')}
+                            >
+                              Remove Cover Image
+                            </button>
+                          </div>
+                        )}
                       </div>
 
                       <div className="form-grid-3">
@@ -717,6 +908,154 @@ export const PortalPage: React.FC = () => {
                         </button>
                         <button type="submit" className="btn-primary">
                           Publish Comic Slot &rarr;
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* Edit Comic Metadata Modal */}
+              {editingComicMeta && (
+                <div className="book-modal-backdrop" role="dialog">
+                  <div className="admin-modal-card">
+                    <div className="modal-header">
+                      <h3>Edit Comic Details: {editingComicMeta.title}</h3>
+                      <button
+                        type="button"
+                        className="modal-close-btn"
+                        onClick={() => setEditingComicMeta(null)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <form onSubmit={handleSaveEditedComicMeta} className="modal-form">
+                      <div className="form-grid-2">
+                        <div className="form-group">
+                          <label className="form-label">Comic Title</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            value={editingComicMeta.title}
+                            onChange={(e) =>
+                              setEditingComicMeta({ ...editingComicMeta, title: e.target.value })
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Issue Number</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            value={editingComicMeta.issueNumber}
+                            onChange={(e) =>
+                              setEditingComicMeta({
+                                ...editingComicMeta,
+                                issueNumber: e.target.value,
+                              })
+                            }
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Cover Artwork Image:</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="form-file-input"
+                          onChange={handleEditCoverFileUpload}
+                        />
+                        {editingComicMeta.coverImage && (
+                          <div className="uploaded-preview-wrap">
+                            <img
+                              src={editingComicMeta.coverImage}
+                              alt="Cover preview"
+                              className="uploaded-thumb-preview"
+                            />
+                            <button
+                              type="button"
+                              className="btn-secondary btn-sm"
+                              onClick={() =>
+                                setEditingComicMeta({ ...editingComicMeta, coverImage: undefined })
+                              }
+                            >
+                              Remove Cover Image
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="form-grid-3">
+                        <div className="form-group">
+                          <label className="form-label">Genre</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            value={editingComicMeta.genre}
+                            onChange={(e) =>
+                              setEditingComicMeta({ ...editingComicMeta, genre: e.target.value })
+                            }
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Author / Creator</label>
+                          <input
+                            type="text"
+                            className="form-input"
+                            value={editingComicMeta.author}
+                            onChange={(e) =>
+                              setEditingComicMeta({ ...editingComicMeta, author: e.target.value })
+                            }
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Cover Glow Accent</label>
+                          <select
+                            className="form-input"
+                            value={editingComicMeta.coverAccent}
+                            onChange={(e) =>
+                              setEditingComicMeta({
+                                ...editingComicMeta,
+                                coverAccent: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="#00e5ff">Electric Cyan</option>
+                            <option value="#c084fc">Cyber Purple</option>
+                            <option value="#10b981">Emerald Green</option>
+                            <option value="#ef4444">Alert Crimson</option>
+                            <option value="#fbbf24">Solar Amber</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Story Synopsis</label>
+                        <textarea
+                          className="form-textarea"
+                          rows={3}
+                          value={editingComicMeta.synopsis}
+                          onChange={(e) =>
+                            setEditingComicMeta({ ...editingComicMeta, synopsis: e.target.value })
+                          }
+                          required
+                        />
+                      </div>
+
+                      <div className="modal-actions">
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => setEditingComicMeta(null)}
+                        >
+                          Cancel
+                        </button>
+                        <button type="submit" className="btn-primary">
+                          Save Changes
                         </button>
                       </div>
                     </form>
@@ -1168,10 +1507,10 @@ export const PortalPage: React.FC = () => {
                   </p>
                   <div className="audit-log-terminal">
                     <div className="log-line">
-                      <span className="log-time">[2026-11-10 14:45:00 UTC]</span>
+                      <span className="log-time">[2026-11-10 15:20:00 UTC]</span>
                       <span className="log-actor">[ADMIN/FOX-BRAVO]</span>
                       <span className="log-action">
-                        COMIC_CMS_PUBLISH — Operation Foxbat Genesis Active
+                        COMIC_CMS_INITIALIZED — Ready for custom story uploads
                       </span>
                     </div>
                     <div className="log-line">
@@ -1195,6 +1534,14 @@ export const PortalPage: React.FC = () => {
           )}
         </div>
       </section>
+
+      {/* Interactive Turn-Page Book Reader Preview Modal within Portal */}
+      {previewingComic && (
+        <ComicBookReader
+          comic={previewingComic}
+          onClose={() => setPreviewingComic(null)}
+        />
+      )}
     </div>
   );
 };

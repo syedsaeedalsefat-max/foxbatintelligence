@@ -252,6 +252,15 @@ export const ComicBookReader: React.FC<ComicBookReaderProps> = ({ comic, onClose
                         <span className="page-chapter-label">{p.chapterTitle}</span>
                         <span className="page-num-indicator">p. {p.pageNumber}</span>
                       </div>
+                      {p.imageUrl && (
+                        <div className="story-page-custom-img-wrap">
+                          <img
+                            src={p.imageUrl}
+                            alt={p.chapterTitle || `Page ${p.pageNumber}`}
+                            className="story-page-custom-img"
+                          />
+                        </div>
+                      )}
                       {p.narrativeText && (
                         <div className="narrative-banner">
                           <p>{p.narrativeText}</p>
@@ -299,12 +308,18 @@ export const ComicBookReader: React.FC<ComicBookReaderProps> = ({ comic, onClose
                     <span className="cover-genre">{comic.genre}</span>
                   </div>
 
-                  <div className="cover-central-art">
-                    <div className="art-hologram-circle">
-                      <TerminalIcon size={64} className="holo-icon" />
+                  {comic.coverImage ? (
+                    <div className="cover-custom-image-box">
+                      <img src={comic.coverImage} alt={comic.title} className="cover-img-rendered" />
                     </div>
-                    <div className="holo-scanlines" />
-                  </div>
+                  ) : (
+                    <div className="cover-central-art">
+                      <div className="art-hologram-circle">
+                        <TerminalIcon size={64} className="holo-icon" />
+                      </div>
+                      <div className="holo-scanlines" />
+                    </div>
+                  )}
 
                   <div className="cover-title-group">
                     <span className="cover-issue-num">{comic.issueNumber}</span>
@@ -333,6 +348,15 @@ export const ComicBookReader: React.FC<ComicBookReaderProps> = ({ comic, onClose
                         <span className="page-chapter-label">{p.chapterTitle}</span>
                         <span className="page-num-indicator">p. {p.pageNumber}</span>
                       </div>
+                      {p.imageUrl && (
+                        <div className="story-page-custom-img-wrap">
+                          <img
+                            src={p.imageUrl}
+                            alt={p.chapterTitle || `Page ${p.pageNumber}`}
+                            className="story-page-custom-img"
+                          />
+                        </div>
+                      )}
                       {p.narrativeText && (
                         <div className="narrative-banner">
                           <p>{p.narrativeText}</p>
