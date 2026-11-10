@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '../context/RouterContext';
+import foxbatLogo from '../../image_foxbat_logo.png';
 import {
   ShieldIcon,
   UsersIcon,
@@ -19,6 +20,16 @@ export const HomePage: React.FC = () => {
           <div className="hero-badge">
             <span className="badge-pulse-dot" aria-hidden="true"></span>
             Safer Websites. Smarter Digital Communities.
+          </div>
+
+          <div className="hero-crest-container">
+            <img
+              src={foxbatLogo}
+              alt="Foxbat Intelligence Crest Emblem"
+              className="hero-crest-img"
+              width="210"
+              height="210"
+            />
           </div>
 
           <h1 id="hero-title" className="hero-title">
